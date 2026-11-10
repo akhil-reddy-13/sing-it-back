@@ -1,0 +1,57 @@
+{
+  "version": "0.1.0-unverified",
+  "updated": "2026-11-10",
+  "notes": "Target songs need one canonical recording that people hear over and over in one key. Keys below are UNVERIFIED first guesses: before collecting real data, check every tonic, measure the recording's tuning (cents from A440) and enter the chorus melody with verify.html, then set verified=true. Templates are written in the key of the original recording. tuning_cents = how far the recording sits from A440 tuning.",
+  "songs": [
+    {
+      "id": "happy_birthday", "role": "control", "title": "Happy Birthday", "artist": "",
+      "year": null,
+      "prompt": "Sing “Happy Birthday” all the way through, in whatever key feels natural.",
+      "why": "No original recording, so no 'correct' key. Measures each person's comfortable singing key (range baseline) and checks the scoring pipeline.",
+      "reference": {
+        "tonic": "C", "mode": "major", "tuning_cents": 0, "anchor_note": "G4",
+        "template": [
+          {"midi": 67, "beats": 0.75}, {"midi": 67, "beats": 0.25}, {"midi": 69, "beats": 1}, {"midi": 67, "beats": 1}, {"midi": 72, "beats": 1}, {"midi": 71, "beats": 2},
+          {"midi": 67, "beats": 0.75}, {"midi": 67, "beats": 0.25}, {"midi": 69, "beats": 1}, {"midi": 67, "beats": 1}, {"midi": 74, "beats": 1}, {"midi": 72, "beats": 2},
+          {"midi": 67, "beats": 0.75}, {"midi": 67, "beats": 0.25}, {"midi": 79, "beats": 1}, {"midi": 76, "beats": 1}, {"midi": 72, "beats": 1}, {"midi": 71, "beats": 1}, {"midi": 69, "beats": 2},
+          {"midi": 77, "beats": 0.75}, {"midi": 77, "beats": 0.25}, {"midi": 76, "beats": 1}, {"midi": 72, "beats": 1}, {"midi": 74, "beats": 1}, {"midi": 72, "beats": 2}
+        ],
+        "verified": true, "source": "Traditional (public domain). Key is arbitrary; C is only the reference for reporting."
+      }
+    },
+    {"id": "rolling_in_the_deep", "role": "target", "title": "Rolling in the Deep", "artist": "Adele", "year": 2010,
+     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "C", "mode": "minor", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
+    {"id": "someone_like_you", "role": "target", "title": "Someone Like You", "artist": "Adele", "year": 2011,
+     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "A", "mode": "major", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
+    {"id": "shape_of_you", "role": "target", "title": "Shape of You", "artist": "Ed Sheeran", "year": 2017,
+     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "C#", "mode": "minor", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
+    {"id": "blinding_lights", "role": "target", "title": "Blinding Lights", "artist": "The Weeknd", "year": 2019,
+     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "F", "mode": "minor", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
+    {"id": "bad_guy", "role": "target", "title": "bad guy", "artist": "Billie Eilish", "year": 2019,
+     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "G", "mode": "minor", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
+    {"id": "anti_hero", "role": "target", "title": "Anti-Hero", "artist": "Taylor Swift", "year": 2022,
+     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "E", "mode": "major", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
+    {"id": "drivers_license", "role": "target", "title": "drivers license", "artist": "Olivia Rodrigo", "year": 2021,
+     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "Bb", "mode": "major", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
+    {"id": "all_i_want_for_christmas", "role": "target", "title": "All I Want for Christmas Is You", "artist": "Mariah Carey", "year": 1994,
+     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "G", "mode": "major", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
+    {"id": "dont_stop_believin", "role": "target", "title": "Don't Stop Believin'", "artist": "Journey", "year": 1981,
+     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "E", "mode": "major", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
+    {"id": "someone_you_loved", "role": "target", "title": "Someone You Loved", "artist": "Lewis Capaldi", "year": 2018,
+     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "Db", "mode": "major", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
+    {"id": "let_it_go", "role": "target", "title": "Let It Go (from Frozen)", "artist": "Idina Menzel", "year": 2013,
+     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "Ab", "mode": "major", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify (verse is in F minor; chorus in Ab)"}},
+    {"id": "never_gonna_give_you_up", "role": "target", "title": "Never Gonna Give You Up", "artist": "Rick Astley", "year": 1987,
+     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "Ab", "mode": "major", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
+    {"id": "last_christmas", "role": "target", "title": "Last Christmas", "artist": "Wham!", "year": 1984,
+     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "D", "mode": "major", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
+    {"id": "uptown_funk", "role": "target", "title": "Uptown Funk", "artist": "Mark Ronson ft. Bruno Mars", "year": 2014,
+     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "D", "mode": "minor", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
+    {"id": "flowers", "role": "target", "title": "Flowers", "artist": "Miley Cyrus", "year": 2023,
+     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "A", "mode": "minor", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
+    {"id": "levitating", "role": "target", "title": "Levitating", "artist": "Dua Lipa", "year": 2020,
+     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "B", "mode": "minor", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
+    {"id": "billie_jean", "role": "target", "title": "Billie Jean", "artist": "Michael Jackson", "year": 1982,
+     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "F#", "mode": "minor", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}}
+  ]
+}
