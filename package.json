@@ -1,0 +1,20 @@
+{
+  "name": "sing-it-back",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Sing It Back: a reproducible web experiment on long-term memory for musical pitch",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev-server.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^23.11.1"
+  }
+}

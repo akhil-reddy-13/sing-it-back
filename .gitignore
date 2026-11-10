@@ -1,0 +1,10 @@
+node_modules/
+data/
+.vercel/
+.env
+.env.local
+.env.*.local
+analysis/out/
+__pycache__/
+.DS_Store
+tests/.fake*.wav
