@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stimulus Verifier</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top"><div class="brand"><span class="logo">♪</span> Sing It Back · researcher tools</div><div class="steplabel">not for participants</div></header>
+  <main class="wide">
+    <section class="card">
+      <h2>1 · Reference songs</h2>
+      <p class="muted">Every target song needs a verified reference before real data collection: the tonic and mode of the original recording, its tuning (cents from A440), and the chorus melody written in the recording's key. Check each against the recording with a piano or tuner, then mark it verified and download the new <code>songs.json</code>. Commit that file. Its <code>version</code> is stored with every session.</p>
+      <table id="list"><thead><tr><th>Song</th><th>Key</th><th>Tuning</th><th>Melody</th><th>Status</th><th></th></tr></thead><tbody></tbody></table>
+      <div class="row"><button class="btn ghost" id="dl">Download songs.json</button><span class="muted small" id="dirty"></span></div>
+    </section>
+
+    <section class="card hidden" id="editor">
+      <h2 id="ed_title"></h2>
+      <div class="langrow" style="grid-template-columns:1fr 1fr 1fr 1fr">
+        <label>Tonic <input id="ed_tonic" placeholder="e.g. C#"></label>
+        <label>Mode <select id="ed_mode"><option>major</option><option>minor</option></select></label>
+        <label>Tuning (cents) <input id="ed_tune" type="number" step="1" value="0"></label>
+        <label>Tempo for playback <input id="ed_bpm" type="number" value="100"></label>
+      </div>
+      <label>Chorus melody in the recording's key: note names with optional beats, e.g. <code>Eb4:0.5 Eb4:0.5 F4 G4:2</code>. The first note is used as the Levitin-style “first note” anchor.
+        <textarea id="ed_tmpl" class="mono" rows="4"></textarea></label>
+      <label>Source / notes (how you checked it) <input id="ed_src" style="width:100%"></label>
+      <label class="check"><input type="checkbox" id="ed_ver"> Verified against the original recording</label>
+      <div class="row">
+        <button class="btn" id="play">▶ Play melody</button>
+        <button class="btn ghost" id="drone">▶ Tonic drone</button>
+        <button class="btn ghost" id="stopplay">■ Stop</button>
+        <button class="btn" id="save">Save changes</button>
+        <span id="ed_msg" class="muted small"></span>
+      </div>
+      <p class="muted small">Tip: play the original recording quietly and press <em>Play melody</em> at the same time. If the synth sounds “out of tune” against the record, adjust <em>Tuning</em> until it locks in.</p>
+    </section>
+
+    <section class="card">
+      <h2>2 · Test the scorer on your own voice</h2>
+      <p class="muted">Pick a song, sing it, and see the pitch track and every score the study would compute. Use this to pilot the songs, and to check the scorer by deliberately singing a known number of semitones off.</p>
+      <div class="row">
+        <select id="t_song"></select>
+        <button class="btn rec" id="t_rec">● Record</button>
+        <button class="btn ghost hidden" id="stop">Stop</button>
+      </div>
+      <div class="meter"><div id="lvl"></div></div>
+      <canvas id="cv" width="1600" height="520"></canvas>
+      <pre id="t_out" class="small"></pre>
+    </section>
+  </main>
+  <script type="module" src="js/verify.js"></script>
+</body>
+</html>
