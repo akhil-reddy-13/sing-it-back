@@ -1,0 +1,9 @@
+# Only public/, api/, lib/ and package files are needed on Vercel.
+# (analysis/ has a requirements.txt, which otherwise makes Vercel treat this as a Python app.)
+analysis/
+tests/
+docs/
+data/
+scripts/
+db/
+README.md
