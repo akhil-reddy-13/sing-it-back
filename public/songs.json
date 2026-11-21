@@ -1,57 +1,1270 @@
 {
-  "version": "0.1.0-unverified",
-  "updated": "2026-11-10",
-  "notes": "Target songs need one canonical recording that people hear over and over in one key. Keys below are UNVERIFIED first guesses: before collecting real data, check every tonic, measure the recording's tuning (cents from A440) and enter the chorus melody with verify.html, then set verified=true. Templates are written in the key of the original recording. tuning_cents = how far the recording sits from A440 tuning.",
-  "songs": [
-    {
-      "id": "happy_birthday", "role": "control", "title": "Happy Birthday", "artist": "",
-      "year": null,
-      "prompt": "Sing “Happy Birthday” all the way through, in whatever key feels natural.",
-      "why": "No original recording, so no 'correct' key. Measures each person's comfortable singing key (range baseline) and checks the scoring pipeline.",
-      "reference": {
-        "tonic": "C", "mode": "major", "tuning_cents": 0, "anchor_note": "G4",
-        "template": [
-          {"midi": 67, "beats": 0.75}, {"midi": 67, "beats": 0.25}, {"midi": 69, "beats": 1}, {"midi": 67, "beats": 1}, {"midi": 72, "beats": 1}, {"midi": 71, "beats": 2},
-          {"midi": 67, "beats": 0.75}, {"midi": 67, "beats": 0.25}, {"midi": 69, "beats": 1}, {"midi": 67, "beats": 1}, {"midi": 74, "beats": 1}, {"midi": 72, "beats": 2},
-          {"midi": 67, "beats": 0.75}, {"midi": 67, "beats": 0.25}, {"midi": 79, "beats": 1}, {"midi": 76, "beats": 1}, {"midi": 72, "beats": 1}, {"midi": 71, "beats": 1}, {"midi": 69, "beats": 2},
-          {"midi": 77, "beats": 0.75}, {"midi": 77, "beats": 0.25}, {"midi": 76, "beats": 1}, {"midi": 72, "beats": 1}, {"midi": 74, "beats": 1}, {"midi": 72, "beats": 2}
-        ],
-        "verified": true, "source": "Traditional (public domain). Key is arbitrary; C is only the reference for reporting."
-      }
-    },
-    {"id": "rolling_in_the_deep", "role": "target", "title": "Rolling in the Deep", "artist": "Adele", "year": 2010,
-     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "C", "mode": "minor", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
-    {"id": "someone_like_you", "role": "target", "title": "Someone Like You", "artist": "Adele", "year": 2011,
-     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "A", "mode": "major", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
-    {"id": "shape_of_you", "role": "target", "title": "Shape of You", "artist": "Ed Sheeran", "year": 2017,
-     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "C#", "mode": "minor", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
-    {"id": "blinding_lights", "role": "target", "title": "Blinding Lights", "artist": "The Weeknd", "year": 2019,
-     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "F", "mode": "minor", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
-    {"id": "bad_guy", "role": "target", "title": "bad guy", "artist": "Billie Eilish", "year": 2019,
-     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "G", "mode": "minor", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
-    {"id": "anti_hero", "role": "target", "title": "Anti-Hero", "artist": "Taylor Swift", "year": 2022,
-     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "E", "mode": "major", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
-    {"id": "drivers_license", "role": "target", "title": "drivers license", "artist": "Olivia Rodrigo", "year": 2021,
-     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "Bb", "mode": "major", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
-    {"id": "all_i_want_for_christmas", "role": "target", "title": "All I Want for Christmas Is You", "artist": "Mariah Carey", "year": 1994,
-     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "G", "mode": "major", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
-    {"id": "dont_stop_believin", "role": "target", "title": "Don't Stop Believin'", "artist": "Journey", "year": 1981,
-     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "E", "mode": "major", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
-    {"id": "someone_you_loved", "role": "target", "title": "Someone You Loved", "artist": "Lewis Capaldi", "year": 2018,
-     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "Db", "mode": "major", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
-    {"id": "let_it_go", "role": "target", "title": "Let It Go (from Frozen)", "artist": "Idina Menzel", "year": 2013,
-     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "Ab", "mode": "major", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify (verse is in F minor; chorus in Ab)"}},
-    {"id": "never_gonna_give_you_up", "role": "target", "title": "Never Gonna Give You Up", "artist": "Rick Astley", "year": 1987,
-     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "Ab", "mode": "major", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
-    {"id": "last_christmas", "role": "target", "title": "Last Christmas", "artist": "Wham!", "year": 1984,
-     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "D", "mode": "major", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
-    {"id": "uptown_funk", "role": "target", "title": "Uptown Funk", "artist": "Mark Ronson ft. Bruno Mars", "year": 2014,
-     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "D", "mode": "minor", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
-    {"id": "flowers", "role": "target", "title": "Flowers", "artist": "Miley Cyrus", "year": 2023,
-     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "A", "mode": "minor", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
-    {"id": "levitating", "role": "target", "title": "Levitating", "artist": "Dua Lipa", "year": 2020,
-     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "B", "mode": "minor", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}},
-    {"id": "billie_jean", "role": "target", "title": "Billie Jean", "artist": "Michael Jackson", "year": 1982,
-     "prompt": "Sing or hum the chorus.", "reference": {"tonic": "F#", "mode": "minor", "tuning_cents": 0, "anchor_note": null, "template": null, "verified": false, "source": "author recall — verify"}}
-  ]
+ "version": "0.2.0-draft",
+ "updated": "2026-11-20",
+ "notes": "Keys are from Musicnotes 'original published key' cross-checked with Hooktheory. Chorus templates are DRAFTS from letter-note transcriptions (see docs/SONG_REFERENCES_DRAFT.md); every song stays verified=false until its key, tuning and melody are checked against the recording with verify.html by two people. Held back for now: bad_guy and uptown_funk (no sung interval hook), last_christmas and billie_jean (recording tuning off A440), never_gonna_give_you_up (hook is transposition-ambiguous; benchmark 78%).",
+ "songs": [
+  {
+   "id": "happy_birthday",
+   "role": "control",
+   "title": "Happy Birthday",
+   "artist": "",
+   "year": null,
+   "prompt": "Sing \u201cHappy Birthday\u201d all the way through, in whatever key feels natural.",
+   "why": "No original recording, so no 'correct' key. Measures each person's comfortable singing key (range baseline) and checks the scoring pipeline.",
+   "reference": {
+    "tonic": "C",
+    "mode": "major",
+    "tuning_cents": 0,
+    "anchor_note": "G4",
+    "template": [
+     {
+      "midi": 67,
+      "beats": 0.75
+     },
+     {
+      "midi": 67,
+      "beats": 0.25
+     },
+     {
+      "midi": 69,
+      "beats": 1
+     },
+     {
+      "midi": 67,
+      "beats": 1
+     },
+     {
+      "midi": 72,
+      "beats": 1
+     },
+     {
+      "midi": 71,
+      "beats": 2
+     },
+     {
+      "midi": 67,
+      "beats": 0.75
+     },
+     {
+      "midi": 67,
+      "beats": 0.25
+     },
+     {
+      "midi": 69,
+      "beats": 1
+     },
+     {
+      "midi": 67,
+      "beats": 1
+     },
+     {
+      "midi": 74,
+      "beats": 1
+     },
+     {
+      "midi": 72,
+      "beats": 2
+     },
+     {
+      "midi": 67,
+      "beats": 0.75
+     },
+     {
+      "midi": 67,
+      "beats": 0.25
+     },
+     {
+      "midi": 79,
+      "beats": 1
+     },
+     {
+      "midi": 76,
+      "beats": 1
+     },
+     {
+      "midi": 72,
+      "beats": 1
+     },
+     {
+      "midi": 71,
+      "beats": 1
+     },
+     {
+      "midi": 69,
+      "beats": 2
+     },
+     {
+      "midi": 77,
+      "beats": 0.75
+     },
+     {
+      "midi": 77,
+      "beats": 0.25
+     },
+     {
+      "midi": 76,
+      "beats": 1
+     },
+     {
+      "midi": 72,
+      "beats": 1
+     },
+     {
+      "midi": 74,
+      "beats": 1
+     },
+     {
+      "midi": 72,
+      "beats": 2
+     }
+    ],
+    "verified": true,
+    "source": "Traditional (public domain). Key is arbitrary; C is only the reference for reporting."
+   }
+  },
+  {
+   "id": "rolling_in_the_deep",
+   "role": "target",
+   "title": "Rolling in the Deep",
+   "artist": "Adele",
+   "year": 2010,
+   "prompt": "Sing the chorus, the part with the title in it.",
+   "reference": {
+    "tonic": "C",
+    "mode": "minor",
+    "tuning_cents": 0,
+    "anchor_note": null,
+    "template": [
+     {
+      "midi": 67,
+      "beats": 0.5
+     },
+     {
+      "midi": 70,
+      "beats": 0.5
+     },
+     {
+      "midi": 67,
+      "beats": 0.5
+     },
+     {
+      "midi": 70,
+      "beats": 0.5
+     },
+     {
+      "midi": 67,
+      "beats": 0.5
+     },
+     {
+      "midi": 70,
+      "beats": 0.5
+     },
+     {
+      "midi": 72,
+      "beats": 0.5
+     },
+     {
+      "midi": 70,
+      "beats": 1
+     },
+     {
+      "midi": 70,
+      "beats": 0.5
+     },
+     {
+      "midi": 67,
+      "beats": 0.5
+     },
+     {
+      "midi": 70,
+      "beats": 0.5
+     },
+     {
+      "midi": 67,
+      "beats": 0.5
+     },
+     {
+      "midi": 70,
+      "beats": 0.5
+     },
+     {
+      "midi": 72,
+      "beats": 0.5
+     },
+     {
+      "midi": 74,
+      "beats": 0.5
+     },
+     {
+      "midi": 70,
+      "beats": 1.5
+     }
+    ],
+    "verified": false,
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording."
+   },
+   "alt_versions": []
+  },
+  {
+   "id": "someone_like_you",
+   "role": "target",
+   "title": "Someone Like You",
+   "artist": "Adele",
+   "year": 2011,
+   "prompt": "Sing the chorus, the part with the title in it.",
+   "reference": {
+    "tonic": "A",
+    "mode": "major",
+    "tuning_cents": 0,
+    "anchor_note": null,
+    "template": [
+     {
+      "midi": 69,
+      "beats": 0.5
+     },
+     {
+      "midi": 69,
+      "beats": 0.5
+     },
+     {
+      "midi": 69,
+      "beats": 1
+     },
+     {
+      "midi": 68,
+      "beats": 1
+     },
+     {
+      "midi": 68,
+      "beats": 0.5
+     },
+     {
+      "midi": 66,
+      "beats": 1
+     },
+     {
+      "midi": 66,
+      "beats": 0.5
+     },
+     {
+      "midi": 68,
+      "beats": 0.5
+     },
+     {
+      "midi": 68,
+      "beats": 0.5
+     },
+     {
+      "midi": 69,
+      "beats": 0.5
+     },
+     {
+      "midi": 66,
+      "beats": 2
+     }
+    ],
+    "verified": false,
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording."
+   },
+   "alt_versions": []
+  },
+  {
+   "id": "shape_of_you",
+   "role": "target",
+   "title": "Shape of You",
+   "artist": "Ed Sheeran",
+   "year": 2017,
+   "prompt": "Sing the chorus, the part with the title in it.",
+   "reference": {
+    "tonic": "C#",
+    "mode": "minor",
+    "tuning_cents": 0,
+    "anchor_note": null,
+    "template": [
+     {
+      "midi": 64,
+      "beats": 1
+     },
+     {
+      "midi": 66,
+      "beats": 1
+     },
+     {
+      "midi": 68,
+      "beats": 1
+     },
+     {
+      "midi": 66,
+      "beats": 1
+     },
+     {
+      "midi": 64,
+      "beats": 1
+     },
+     {
+      "midi": 64,
+      "beats": 1
+     },
+     {
+      "midi": 66,
+      "beats": 1
+     },
+     {
+      "midi": 66,
+      "beats": 1
+     },
+     {
+      "midi": 64,
+      "beats": 1
+     },
+     {
+      "midi": 64,
+      "beats": 1
+     },
+     {
+      "midi": 66,
+      "beats": 1
+     },
+     {
+      "midi": 68,
+      "beats": 1
+     },
+     {
+      "midi": 66,
+      "beats": 1
+     },
+     {
+      "midi": 64,
+      "beats": 1
+     },
+     {
+      "midi": 64,
+      "beats": 0.5
+     },
+     {
+      "midi": 66,
+      "beats": 0.5
+     },
+     {
+      "midi": 61,
+      "beats": 2
+     }
+    ],
+    "verified": false,
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording."
+   },
+   "alt_versions": []
+  },
+  {
+   "id": "blinding_lights",
+   "role": "target",
+   "title": "Blinding Lights",
+   "artist": "The Weeknd",
+   "year": 2019,
+   "prompt": "Sing the chorus, the part with the title in it.",
+   "reference": {
+    "tonic": "C",
+    "mode": "minor",
+    "tuning_cents": 0,
+    "anchor_note": null,
+    "template": [
+     {
+      "midi": 65,
+      "beats": 0.5
+     },
+     {
+      "midi": 67,
+      "beats": 1
+     },
+     {
+      "midi": 65,
+      "beats": 1
+     },
+     {
+      "midi": 63,
+      "beats": 0.5
+     },
+     {
+      "midi": 63,
+      "beats": 1
+     },
+     {
+      "midi": 60,
+      "beats": 0.5
+     },
+     {
+      "midi": 63,
+      "beats": 1.5
+     },
+     {
+      "midi": 60,
+      "beats": 2
+     },
+     {
+      "midi": 63,
+      "beats": 1.5
+     },
+     {
+      "midi": 70,
+      "beats": 0.5
+     },
+     {
+      "midi": 67,
+      "beats": 1
+     },
+     {
+      "midi": 65,
+      "beats": 1
+     },
+     {
+      "midi": 63,
+      "beats": 1.5
+     },
+     {
+      "midi": 70,
+      "beats": 0.5
+     },
+     {
+      "midi": 67,
+      "beats": 1
+     },
+     {
+      "midi": 65,
+      "beats": 1
+     },
+     {
+      "midi": 63,
+      "beats": 2.5
+     }
+    ],
+    "verified": false,
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium-low. Verify against the recording."
+   },
+   "alt_versions": [
+    "a sped-up version"
+   ]
+  },
+  {
+   "id": "anti_hero",
+   "role": "target",
+   "title": "Anti-Hero",
+   "artist": "Taylor Swift",
+   "year": 2022,
+   "prompt": "Sing the chorus, the part with the title in it.",
+   "reference": {
+    "tonic": "E",
+    "mode": "major",
+    "tuning_cents": 0,
+    "anchor_note": null,
+    "template": [
+     {
+      "midi": 64,
+      "beats": 1
+     },
+     {
+      "midi": 68,
+      "beats": 1
+     },
+     {
+      "midi": 68,
+      "beats": 1
+     },
+     {
+      "midi": 66,
+      "beats": 1
+     },
+     {
+      "midi": 66,
+      "beats": 1
+     },
+     {
+      "midi": 66,
+      "beats": 1
+     },
+     {
+      "midi": 64,
+      "beats": 1
+     },
+     {
+      "midi": 64,
+      "beats": 1
+     },
+     {
+      "midi": 64,
+      "beats": 1
+     },
+     {
+      "midi": 64,
+      "beats": 1
+     },
+     {
+      "midi": 68,
+      "beats": 1
+     },
+     {
+      "midi": 68,
+      "beats": 1
+     },
+     {
+      "midi": 66,
+      "beats": 1
+     },
+     {
+      "midi": 66,
+      "beats": 1
+     },
+     {
+      "midi": 66,
+      "beats": 1
+     },
+     {
+      "midi": 64,
+      "beats": 1
+     },
+     {
+      "midi": 64,
+      "beats": 1
+     },
+     {
+      "midi": 64,
+      "beats": 1
+     }
+    ],
+    "verified": false,
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording."
+   },
+   "alt_versions": [
+    "a sped-up version"
+   ]
+  },
+  {
+   "id": "drivers_license",
+   "role": "target",
+   "title": "drivers license",
+   "artist": "Olivia Rodrigo",
+   "year": 2021,
+   "prompt": "Sing the chorus, the big part where her voice climbs up.",
+   "reference": {
+    "tonic": "Bb",
+    "mode": "major",
+    "tuning_cents": 0,
+    "anchor_note": null,
+    "template": [
+     {
+      "midi": 65,
+      "beats": 1
+     },
+     {
+      "midi": 67,
+      "beats": 1
+     },
+     {
+      "midi": 67,
+      "beats": 1
+     },
+     {
+      "midi": 67,
+      "beats": 1
+     },
+     {
+      "midi": 67,
+      "beats": 1
+     },
+     {
+      "midi": 69,
+      "beats": 1
+     },
+     {
+      "midi": 69,
+      "beats": 1
+     },
+     {
+      "midi": 69,
+      "beats": 1
+     },
+     {
+      "midi": 69,
+      "beats": 1
+     },
+     {
+      "midi": 70,
+      "beats": 1
+     },
+     {
+      "midi": 70,
+      "beats": 1
+     },
+     {
+      "midi": 70,
+      "beats": 1
+     },
+     {
+      "midi": 70,
+      "beats": 1
+     },
+     {
+      "midi": 74,
+      "beats": 0.5
+     },
+     {
+      "midi": 72,
+      "beats": 0.5
+     },
+     {
+      "midi": 70,
+      "beats": 1
+     },
+     {
+      "midi": 67,
+      "beats": 1
+     },
+     {
+      "midi": 65,
+      "beats": 2
+     }
+    ],
+    "verified": false,
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording."
+   },
+   "alt_versions": []
+  },
+  {
+   "id": "all_i_want_for_christmas",
+   "role": "target",
+   "title": "All I Want for Christmas Is You",
+   "artist": "Mariah Carey",
+   "year": 1994,
+   "prompt": "Sing the end of the chorus, the line with the title.",
+   "reference": {
+    "tonic": "G",
+    "mode": "major",
+    "tuning_cents": 0,
+    "anchor_note": null,
+    "template": [
+     {
+      "midi": 62,
+      "beats": 1
+     },
+     {
+      "midi": 64,
+      "beats": 1
+     },
+     {
+      "midi": 67,
+      "beats": 1
+     },
+     {
+      "midi": 74,
+      "beats": 1
+     },
+     {
+      "midi": 72,
+      "beats": 2
+     },
+     {
+      "midi": 71,
+      "beats": 1
+     },
+     {
+      "midi": 69,
+      "beats": 1
+     },
+     {
+      "midi": 67,
+      "beats": 1
+     },
+     {
+      "midi": 64,
+      "beats": 1
+     },
+     {
+      "midi": 63,
+      "beats": 1
+     },
+     {
+      "midi": 69,
+      "beats": 1
+     },
+     {
+      "midi": 71,
+      "beats": 1
+     },
+     {
+      "midi": 69,
+      "beats": 0.5
+     },
+     {
+      "midi": 67,
+      "beats": 2.5
+     }
+    ],
+    "verified": false,
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium-high. Verify against the recording."
+   },
+   "alt_versions": [
+    "the Justin Bieber duet"
+   ]
+  },
+  {
+   "id": "dont_stop_believin",
+   "role": "target",
+   "title": "Don't Stop Believin'",
+   "artist": "Journey",
+   "year": 1981,
+   "prompt": "Sing the chorus, the part with the title in it.",
+   "reference": {
+    "tonic": "E",
+    "mode": "major",
+    "tuning_cents": 0,
+    "anchor_note": null,
+    "template": [
+     {
+      "midi": 69,
+      "beats": 0.5
+     },
+     {
+      "midi": 68,
+      "beats": 0.5
+     },
+     {
+      "midi": 68,
+      "beats": 1
+     },
+     {
+      "midi": 66,
+      "beats": 0.5
+     },
+     {
+      "midi": 69,
+      "beats": 0.5
+     },
+     {
+      "midi": 68,
+      "beats": 2
+     },
+     {
+      "midi": 69,
+      "beats": 1
+     },
+     {
+      "midi": 68,
+      "beats": 1
+     },
+     {
+      "midi": 69,
+      "beats": 1
+     },
+     {
+      "midi": 71,
+      "beats": 1
+     },
+     {
+      "midi": 73,
+      "beats": 0.5
+     },
+     {
+      "midi": 71,
+      "beats": 0.5
+     },
+     {
+      "midi": 68,
+      "beats": 0.5
+     },
+     {
+      "midi": 66,
+      "beats": 0.5
+     },
+     {
+      "midi": 64,
+      "beats": 2
+     }
+    ],
+    "verified": false,
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium-low. Verify against the recording."
+   },
+   "alt_versions": [
+    "the Glee version"
+   ]
+  },
+  {
+   "id": "someone_you_loved",
+   "role": "target",
+   "title": "Someone You Loved",
+   "artist": "Lewis Capaldi",
+   "year": 2018,
+   "prompt": "Sing the chorus, from the start through the title line.",
+   "reference": {
+    "tonic": "Db",
+    "mode": "major",
+    "tuning_cents": 0,
+    "anchor_note": null,
+    "template": [
+     {
+      "midi": 61,
+      "beats": 0.5
+     },
+     {
+      "midi": 61,
+      "beats": 0.5
+     },
+     {
+      "midi": 66,
+      "beats": 0.5
+     },
+     {
+      "midi": 65,
+      "beats": 0.5
+     },
+     {
+      "midi": 61,
+      "beats": 0.5
+     },
+     {
+      "midi": 61,
+      "beats": 0.5
+     },
+     {
+      "midi": 66,
+      "beats": 0.5
+     },
+     {
+      "midi": 65,
+      "beats": 0.5
+     },
+     {
+      "midi": 61,
+      "beats": 0.5
+     },
+     {
+      "midi": 61,
+      "beats": 0.5
+     },
+     {
+      "midi": 66,
+      "beats": 0.5
+     },
+     {
+      "midi": 65,
+      "beats": 0.5
+     },
+     {
+      "midi": 63,
+      "beats": 0.5
+     },
+     {
+      "midi": 61,
+      "beats": 0.5
+     },
+     {
+      "midi": 61,
+      "beats": 0.5
+     },
+     {
+      "midi": 61,
+      "beats": 0.5
+     },
+     {
+      "midi": 68,
+      "beats": 0.5
+     },
+     {
+      "midi": 68,
+      "beats": 0.5
+     },
+     {
+      "midi": 65,
+      "beats": 1
+     },
+     {
+      "midi": 61,
+      "beats": 0.5
+     },
+     {
+      "midi": 61,
+      "beats": 0.5
+     },
+     {
+      "midi": 61,
+      "beats": 0.5
+     },
+     {
+      "midi": 66,
+      "beats": 0.5
+     },
+     {
+      "midi": 66,
+      "beats": 0.5
+     },
+     {
+      "midi": 65,
+      "beats": 0.5
+     },
+     {
+      "midi": 63,
+      "beats": 1
+     },
+     {
+      "midi": 65,
+      "beats": 0.5
+     },
+     {
+      "midi": 65,
+      "beats": 0.5
+     },
+     {
+      "midi": 65,
+      "beats": 0.5
+     },
+     {
+      "midi": 65,
+      "beats": 0.5
+     },
+     {
+      "midi": 65,
+      "beats": 0.5
+     },
+     {
+      "midi": 65,
+      "beats": 0.5
+     },
+     {
+      "midi": 65,
+      "beats": 0.5
+     },
+     {
+      "midi": 63,
+      "beats": 0.5
+     },
+     {
+      "midi": 63,
+      "beats": 0.5
+     },
+     {
+      "midi": 61,
+      "beats": 0.5
+     },
+     {
+      "midi": 61,
+      "beats": 0.5
+     },
+     {
+      "midi": 63,
+      "beats": 0.5
+     },
+     {
+      "midi": 63,
+      "beats": 0.5
+     },
+     {
+      "midi": 63,
+      "beats": 1
+     },
+     {
+      "midi": 61,
+      "beats": 2
+     }
+    ],
+    "verified": false,
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording."
+   },
+   "alt_versions": []
+  },
+  {
+   "id": "let_it_go",
+   "role": "target",
+   "title": "Let It Go (from Frozen)",
+   "artist": "Idina Menzel",
+   "year": 2013,
+   "prompt": "Sing the chorus, the part with the title in it.",
+   "reference": {
+    "tonic": "Ab",
+    "mode": "major",
+    "tuning_cents": 0,
+    "anchor_note": null,
+    "template": [
+     {
+      "midi": 65,
+      "beats": 0.5
+     },
+     {
+      "midi": 67,
+      "beats": 0.5
+     },
+     {
+      "midi": 68,
+      "beats": 2
+     },
+     {
+      "midi": 63,
+      "beats": 0.5
+     },
+     {
+      "midi": 63,
+      "beats": 0.5
+     },
+     {
+      "midi": 70,
+      "beats": 2
+     },
+     {
+      "midi": 68,
+      "beats": 1
+     },
+     {
+      "midi": 65,
+      "beats": 0.5
+     },
+     {
+      "midi": 65,
+      "beats": 0.5
+     },
+     {
+      "midi": 65,
+      "beats": 0.5
+     },
+     {
+      "midi": 65,
+      "beats": 0.5
+     },
+     {
+      "midi": 67,
+      "beats": 0.5
+     },
+     {
+      "midi": 68,
+      "beats": 2
+     },
+     {
+      "midi": 65,
+      "beats": 0.5
+     },
+     {
+      "midi": 67,
+      "beats": 0.5
+     },
+     {
+      "midi": 68,
+      "beats": 2
+     },
+     {
+      "midi": 63,
+      "beats": 0.5
+     },
+     {
+      "midi": 72,
+      "beats": 0.5
+     },
+     {
+      "midi": 72,
+      "beats": 1
+     },
+     {
+      "midi": 70,
+      "beats": 1.5
+     }
+    ],
+    "verified": false,
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence high (pitch). Verify against the recording."
+   },
+   "alt_versions": [
+    "Demi Lovato's version"
+   ]
+  },
+  {
+   "id": "flowers",
+   "role": "target",
+   "title": "Flowers",
+   "artist": "Miley Cyrus",
+   "year": 2023,
+   "prompt": "Sing the chorus, the part with the title in it.",
+   "reference": {
+    "tonic": "A",
+    "mode": "minor",
+    "tuning_cents": 0,
+    "anchor_note": null,
+    "template": [
+     {
+      "midi": 64,
+      "beats": 0.5
+     },
+     {
+      "midi": 64,
+      "beats": 0.5
+     },
+     {
+      "midi": 64,
+      "beats": 0.5
+     },
+     {
+      "midi": 62,
+      "beats": 0.5
+     },
+     {
+      "midi": 60,
+      "beats": 1
+     },
+     {
+      "midi": 64,
+      "beats": 0.5
+     },
+     {
+      "midi": 65,
+      "beats": 1.5
+     },
+     {
+      "midi": 62,
+      "beats": 0.5
+     },
+     {
+      "midi": 62,
+      "beats": 0.5
+     },
+     {
+      "midi": 62,
+      "beats": 0.5
+     },
+     {
+      "midi": 60,
+      "beats": 0.5
+     },
+     {
+      "midi": 57,
+      "beats": 0.5
+     },
+     {
+      "midi": 64,
+      "beats": 0.5
+     },
+     {
+      "midi": 62,
+      "beats": 0.5
+     },
+     {
+      "midi": 64,
+      "beats": 1.5
+     }
+    ],
+    "verified": false,
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording."
+   },
+   "alt_versions": [
+    "a sped-up version"
+   ]
+  },
+  {
+   "id": "levitating",
+   "role": "target",
+   "title": "Levitating",
+   "artist": "Dua Lipa",
+   "year": 2020,
+   "prompt": "Sing the chorus, the part with the title in it.",
+   "reference": {
+    "tonic": "B",
+    "mode": "minor",
+    "tuning_cents": 0,
+    "anchor_note": null,
+    "template": [
+     {
+      "midi": 62,
+      "beats": 0.5
+     },
+     {
+      "midi": 62,
+      "beats": 0.5
+     },
+     {
+      "midi": 66,
+      "beats": 1
+     },
+     {
+      "midi": 64,
+      "beats": 0.5
+     },
+     {
+      "midi": 64,
+      "beats": 0.5
+     },
+     {
+      "midi": 64,
+      "beats": 0.5
+     },
+     {
+      "midi": 64,
+      "beats": 0.5
+     },
+     {
+      "midi": 64,
+      "beats": 0.5
+     },
+     {
+      "midi": 64,
+      "beats": 1
+     },
+     {
+      "midi": 62,
+      "beats": 0.5
+     },
+     {
+      "midi": 62,
+      "beats": 0.5
+     },
+     {
+      "midi": 66,
+      "beats": 1
+     },
+     {
+      "midi": 64,
+      "beats": 0.5
+     },
+     {
+      "midi": 64,
+      "beats": 0.5
+     },
+     {
+      "midi": 64,
+      "beats": 0.5
+     },
+     {
+      "midi": 64,
+      "beats": 0.5
+     },
+     {
+      "midi": 64,
+      "beats": 0.5
+     },
+     {
+      "midi": 62,
+      "beats": 0.5
+     },
+     {
+      "midi": 59,
+      "beats": 1
+     },
+     {
+      "midi": 66,
+      "beats": 0.5
+     },
+     {
+      "midi": 64,
+      "beats": 0.5
+     },
+     {
+      "midi": 62,
+      "beats": 0.5
+     },
+     {
+      "midi": 59,
+      "beats": 0.5
+     },
+     {
+      "midi": 57,
+      "beats": 2
+     }
+    ],
+    "verified": false,
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording."
+   },
+   "alt_versions": []
+  }
+ ]
 }

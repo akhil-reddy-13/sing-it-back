@@ -123,7 +123,12 @@ YIN (de Cheveigné & Kawahara, 2002): 40 ms window, 10 ms hop, 65–1050 Hz, thr
 
 ### 8.3 Validation of the scorer
 
-`npm test` includes synthetic singers with vibrato, scoops, per-note intonation error, noise, partial performances, a repeated chorus, octave-down singing and recording tuning offsets. The scorer must recover the planted transposition within 0.2 st. `tests/e2e.mjs` drives the full study in headless Chrome with a synthetic singer as the microphone. Before launch, also run the human checks in section 11.
+`tests/benchmark_scorer.mjs` synthesizes imperfect singers for every song with a template, at random true transpositions. Each singer has per-note intonation error, slow drift, a random 50–100% excerpt of the hook, 0–2 wrong notes, a random tempo and octave, occasional mid-take octave flips, and noise. Results (analysis 1.1, n = 60 per song, 13 songs):
+
+- **Template method:** 98% of takes within 0.5 st of the truth (median error 0.08 st).
+- **Key-profile fallback:** 49% within 0.5 st, with confusions 4–5 st away (a 4th/5th) that its own ambiguity index does not flag. So the key-profile score is reported but never used as an outcome.
+
+Analysis 1.1 matches only steady-note frames (no scoops or glides) at 100 ms. On the first real-voice pilot takes, this made the correct song's template fit better than every other song's template, which v1.0 did not. Human-scorer and device checks (§11) are still required.
 
 ### 8.4 Note naming
 
@@ -149,12 +154,14 @@ Run with `python3 analysis/analyze.py --mode irb`. The script writes `report.md`
 **Trial level:**
 
 - less than 3 s of detected singing;
-- participant flagged "didn't really know this part", "heard music" or "interrupted";
+- participant flagged "I didn't really know this one" (or, in v1, "heard music" / "interrupted");
+- participant says they mostly hear a version in another key (v2 asks this for songs with one, e.g. Demi Lovato's "Let It Go", the Glee "Don't Stop Believin'", sped-up edits);
 - the song's reference isn't verified;
-- template ambiguity > 0.9;
+- the song has no melody template (key-profile scoring is too error-prone; see §8.3);
+- template ambiguity > 0.9, or template misfit (mean |semitone| error) > 0.6 (provisional; recalibrate on pilot data before preregistering);
 - unscorable.
 
-Only songs rated 4–5 for familiarity are presented, by design.
+Only songs the participant selects as known well are presented, by design.
 
 **Participant level:**
 

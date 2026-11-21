@@ -9,7 +9,7 @@ from __future__ import annotations
 import math
 import numpy as np
 
-ANALYSIS_VERSION = "1.0.0"
+ANALYSIS_VERSION = "1.1.0"  # 1.1: template fit uses steady-note frames at 100 ms
 PC_OF = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
 NOTE_NAMES = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
 KK = {
@@ -104,17 +104,32 @@ def first_stable_note(m, min_frames=15, tol=0.6, hop_sec=0.01):
     return None
 
 
-def contour(m, chunk=5):
-    q = []
+def contour(m, chunk=10):
+    q, need = [], int(math.ceil(chunk * 0.6))
     for i in range(0, len(m) - chunk + 1, chunk):
         w = m[i: i + chunk]
         w = w[np.isfinite(w)]
-        if w.size >= 3:
+        if w.size >= need:
             q.append(float(np.median(w)))
     return np.array(q)
 
 
-def expand_template(notes, per_beat=2):
+def steady_frames(m, half=3, tol=0.5):
+    """Keep frames whose 70 ms neighborhood is a steady note (see pitch.js steadyFrames)."""
+    m = np.asarray(m, dtype=float)
+    out = np.full(len(m), np.nan)
+    for i in range(half, len(m) - half):
+        w = m[i - half: i + half + 1]
+        w = w[np.isfinite(w)]
+        if w.size < 2 * half:
+            continue
+        md = np.median(w)
+        if np.all(np.abs(w - md) < tol):
+            out[i] = m[i]
+    return out
+
+
+def expand_template(notes, per_beat=1):
     r = []
     for n in notes:
         r += [n["midi"]] * max(1, int(math.floor(n["beats"] * per_beat + 0.5)))
@@ -139,8 +154,8 @@ def dtw_cost(Q, R, t, cap=2.0):
 
 
 def score_template(m, notes, tuning_cents=0.0):
-    Q = contour(m)
-    if len(Q) < 20 or not notes:
+    Q = contour(steady_frames(m))
+    if len(Q) < 10 or not notes:
         return None
     one = expand_template(notes) + tuning_cents / 100
     R = np.concatenate([one, one, one])

@@ -17,6 +17,13 @@ import { getConfig, send, uploadAudio, log } from "./api.js";
 const APP_VERSION = "0.2.0";
 const FLOW_VERSION = "short_v2";
 const MAX_SONGS = 3;
+const AMBIGUITY_MAX = 0.9; // same thresholds as analysis/analyze.py
+const COST_MAX = 0.6;      // mean |st| misfit (analysis 1.1). PROVISIONAL: synthetic right ~0.15, real right 0.34–0.54 (4 pilot takes). Recalibrate on pilot data.
+// Only melody-template scoring is accurate (tests/benchmark_scorer.mjs: 99% within 0.5 st;
+// the key-profile fallback confuses keys a 4th/5th apart ~28% of the time). So songs
+// without a template are never offered, and only confident template fits are shown.
+const scorable = (song) => !!song.reference?.template?.length;
+const reliable = (t) => t.scores?.primary?.method === "template" && t.scores.template.ambiguity <= AMBIGUITY_MAX && t.scores.template.cost <= COST_MAX;
 const N_NAMING = 12;
 const STEPS = ["", "Consent", "Mic", "Songs", "Sing", "Notes", "About you", "Results"];
 
@@ -185,7 +192,7 @@ async function micTest() {
 // ---------------------------------------------------------------- 3 pick songs
 function pickSongs() {
   progress(3);
-  const order = shuffle(S.songs.filter((s) => s.role === "target"), rand); // random order avoids position effects
+  const order = shuffle(S.songs.filter((s) => s.role === "target" && scorable(s)), rand); // random order avoids position effects
   screen(`
     <h2>Which of these could you sing from memory?</h2>
     <p>Tap every song where you know <b>the original recording</b> really well, well enough to sing along in your head right now.</p>
@@ -235,7 +242,7 @@ async function singTrial(i, attempt) {
       <p class="eyebrow">Song ${i + 1} of ${S.plan.length}</p>
       <h2 class="songtitle">${esc(song.title)}</h2>
       ${song.artist ? `<p class="artist">${esc(song.artist)}</p>` : ""}
-      <p class="prompt">${isControl ? "Sing it in whatever key feels natural." : esc(song.prompt || "Sing the part you know best.")}</p>
+      <p class="prompt">${isControl ? "Sing it in whatever key feels natural." : song.cue ? `Start from <span class="cue">“${esc(song.cue)}”</span> and keep going.` : esc(song.prompt || "Sing the part you know best.")}</p>
       ${recorderHTML(isControl ? "Tap when you're ready" : "Hear it in your head, then tap")}
       <p id="msg" class="center muted"></p>
       <div class="actions center hidden" id="after"></div>
@@ -253,7 +260,7 @@ async function singTrial(i, attempt) {
       trial_id: trialId, trial_index: i, attempt, song_id: song.id, role: p.role,
       reference_verified: !!song.reference?.verified, started_at: startedAt,
       rec_sec: +rec.sec.toFixed(2), input_sr: rec.sr, noise_rms: +S.noiseRms.toFixed(6),
-      confidence: null, flags, scores, track: packTrack(track),
+      confidence: null, flags, version_known: $("input[name=ver]:checked")?.value || null, scores, track: packTrack(track),
     };
     S.trials.push(payload);
     send(S, "trial", payload);
@@ -267,6 +274,12 @@ async function singTrial(i, attempt) {
     return;
   }
   $("#msg").innerHTML = `<span class="good">Got it.</span>`;
+  // Songs with a famous version in another key: ask which one this person knows (PROTOCOL §5.1)
+  const alts = song.alt_versions || [];
+  const verQ = alts.length ? `<div class="verq"><p class="ql">Which version do you mostly hear?</p>
+    <div class="seg center">${[["original", "The original"], ...alts.map((v, k) => [`alt${k}`, v[0].toUpperCase() + v.slice(1)]), ["unsure", "Not sure"]]
+      .map(([v, l]) => `<label><input type="radio" name="ver" value="${v === "original" || v === "unsure" ? v : alts[+v.slice(3)]}"><span>${esc(l)}</span></label>`).join("")}</div></div>` : "";
+  after.insertAdjacentHTML("beforebegin", verQ);
   after.innerHTML = `<button class="btn" id="next">Next</button>${attempt < 3 ? `<button class="btn ghost" id="redo">Redo</button>` : ""}
     ${isControl ? "" : `<button class="linkbtn" id="unsure">I didn't really know this one</button>`}`;
   $("#next").onclick = () => { save([]); singTrial(i + 1, 1); };
@@ -421,17 +434,19 @@ function describe(dev) {
 function results() {
   progress(7);
   $("#stepLabel").textContent = "";
-  const targets = S.trials.filter((t) => t.role === "target" && !t.flags.includes("redo") && t.scores.primary);
-  const hb = S.trials.find((t) => t.role === "control" && !t.flags.includes("redo"));
+  const sung = S.trials.filter((t) => t.role === "target" && !t.flags.includes("redo"));
+  const targets = sung.filter((t) => reliable(t) && !t.flags.includes("unsure_part") && [null, "original", "unsure"].includes(t.version_known));
+  const unscored = sung.filter((t) => !targets.includes(t));
+  const hb = S.trials.find((t) => t.role === "control" && !t.flags.includes("redo") && reliable(t));
   const mean = targets.length ? targets.reduce((s, t) => s + Math.abs(t.scores.primary.deviation), 0) / targets.length : null;
   const anyUnverified = targets.some((t) => !t.reference_verified);
   const named = S.naming.length ? S.naming.filter((r) => r.error === 0).length : null;
   const near = S.naming.length ? S.naming.filter((r) => Math.abs(r.error) <= 1).length : null;
   send(S, "complete", { n_trials: S.trials.length, mean_abs_dev: mean });
   const songName = (id) => S.songs.find((s) => s.id === id)?.title || id;
-  const verdict = mean == null ? "" : mean < 1 ? "That's remarkably close. Your memory holds on to the actual pitch of songs."
+  const verdict = mean == null ? "" : mean < 1 ? "That's remarkably close. Your memory seems to hold on to the actual pitch of songs."
     : mean < 2 ? "That's closer than chance. Your memory seems to keep some of the real pitch."
-    : "That's around what random guessing gives. Totally normal: most people remember the tune, not the key.";
+    : "That's in the range random keys would give. Totally normal: most people remember the tune, not the key.";
   screen(`
     <p class="eyebrow">Thank you!</p>
     <h1>Here's how you did</h1>
@@ -445,7 +460,8 @@ function results() {
           <span class="bd">${describe(d)}</span></div>`;
       }).join("")}
         <div class="axis"><span>6 low</span><span>original key</span><span>6 high</span></div>
-      </div>` : `<p>We didn't get a scorable song this time, but your other answers still help.</p>`}
+      </div>` : `<p>We couldn't measure your songs precisely this time, but your other answers still help.</p>`}
+    ${unscored.length && targets.length ? `<p class="muted small">We couldn't measure ${unscored.map((t) => `<em>${esc(songName(t.song_id))}</em>`).join(" or ")} precisely enough to score it, so it's left out.</p>` : ""}
     ${hb?.scores?.template ? `<p>You sang “Happy Birthday” in about <b>${NOTE_NAMES[((Math.round(hb.scores.template.deviation) % 12) + 12) % 12]} major</b>. It has no “right” key, so this shows where your voice is comfortable.</p>` : ""}
     ${named != null ? `<div class="big small"><b>${named} / ${S.naming.length}</b><span>notes named exactly (${near} within one key). Guessing gets about 1.</span></div>` : ""}
     ${anyUnverified ? `<p class="muted small">The reference keys in this version are still being checked against the recordings, so treat these numbers as rough.</p>` : ""}

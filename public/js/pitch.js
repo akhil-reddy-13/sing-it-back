@@ -10,7 +10,7 @@
 //             in semitones, folded into [-6, +6) (octave-free).
 // =====================================================================
 
-export const ANALYSIS_VERSION = "1.0.0";
+export const ANALYSIS_VERSION = "1.1.0"; // 1.1: template fit uses steady-note frames at 100 ms
 export const SR = 16000;        // analysis sample rate (Hz)
 export const HOP = 160;         // 10 ms hop
 export const WIN = 640;         // 40 ms YIN integration window
@@ -241,18 +241,32 @@ export function firstStableNote(m, { minFrames = 15, tol = 0.6, hopSec = HOP / S
   return null;
 }
 
-/** Sung contour at 20 Hz (median of each 50 ms chunk with >= 3 voiced frames). */
-export function contour(m, chunk = 5) {
-  const q = [];
+/** Sung contour: median of each chunk (default 100 ms) with >= 60% voiced frames. */
+export function contour(m, chunk = 10) {
+  const q = [], need = Math.ceil(chunk * 0.6);
   for (let i = 0; i + chunk <= m.length; i += chunk) {
     const w = [];
     for (let k = i; k < i + chunk; k++) if (Number.isFinite(m[k])) w.push(m[k]);
-    if (w.length >= 3) q.push(median(w));
+    if (w.length >= need) q.push(median(w));
   }
   return q;
 }
 
-function expandTemplate(notes, perBeat = 2) {
+/** Keep only steady-note frames: >= 6 voiced frames in the surrounding 70 ms, all within 0.5 st
+ *  of their median. Drops scoops, glides and consonant transitions, which real voices are full of. */
+export function steadyFrames(m, half = 3, tol = 0.5) {
+  const out = new Float64Array(m.length).fill(NaN);
+  for (let i = half; i < m.length - half; i++) {
+    const w = [];
+    for (let k = i - half; k <= i + half; k++) if (Number.isFinite(m[k])) w.push(m[k]);
+    if (w.length < 2 * half) continue;
+    const md = median(w);
+    if (w.every((x) => Math.abs(x - md) < tol)) out[i] = m[i];
+  }
+  return out;
+}
+
+function expandTemplate(notes, perBeat = 1) {
   const r = [];
   for (const n of notes) for (let k = 0; k < Math.max(1, Math.round(n.beats * perBeat)); k++) r.push(n.midi);
   return r;
@@ -276,8 +290,8 @@ export function dtwCost(Q, R, t, cap = 2) {
 
 /** Best transposition between the sung melody and the reference template. */
 export function scoreTemplate(m, notes, tuningCents = 0) {
-  const Q = contour(m);
-  if (Q.length < 20 || !notes?.length) return null;
+  const Q = contour(steadyFrames(m));
+  if (Q.length < 10 || !notes?.length) return null;
   // Template repeated 3x so people who repeat the chorus (or start mid-way and loop
   // back to the top) can still be aligned as one continuous path.
   const one = expandTemplate(notes).map((x) => x + tuningCents / 100);
