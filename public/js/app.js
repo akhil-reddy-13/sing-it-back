@@ -18,12 +18,14 @@ const APP_VERSION = "0.2.0";
 const FLOW_VERSION = "short_v2";
 const MAX_SONGS = 3;
 const AMBIGUITY_MAX = 0.9; // same thresholds as analysis/analyze.py
+const MARGIN_MIN = 0;     // this song must fit better than every other song (wrong-song check; tests/benchmark_gates.mjs: 100% right kept, 1% wrong let through)
 const COST_MAX = 0.6;      // mean |st| misfit (analysis 1.1). PROVISIONAL: synthetic right ~0.15, real right 0.34–0.54 (4 pilot takes). Recalibrate on pilot data.
 // Only melody-template scoring is accurate (tests/benchmark_scorer.mjs: 99% within 0.5 st;
 // the key-profile fallback confuses keys a 4th/5th apart ~28% of the time). So songs
 // without a template are never offered, and only confident template fits are shown.
 const scorable = (song) => !!song.reference?.template?.length;
-const reliable = (t) => t.scores?.primary?.method === "template" && t.scores.template.ambiguity <= AMBIGUITY_MAX && t.scores.template.cost <= COST_MAX;
+const reliable = (t) => t.scores?.primary?.method === "template" && t.scores.template.ambiguity <= AMBIGUITY_MAX && t.scores.template.cost <= COST_MAX
+  && (t.scores.specificity == null || t.scores.specificity.margin >= MARGIN_MIN);
 const N_NAMING = 12;
 const STEPS = ["", "Consent", "Mic", "Songs", "Sing", "Notes", "About you", "Results"];
 
@@ -252,7 +254,7 @@ async function singTrial(i, attempt) {
   $("#msg").textContent = "One moment…";
   await sleep(30);
   const { x, track } = analyze(rec.raw, rec.sr);
-  const scores = scoreTrial(track, song, { noiseRms: S.noiseRms });
+  const scores = scoreTrial(track, song, { noiseRms: S.noiseRms }, S.songs);
   const after = $("#after"); after.classList.remove("hidden");
   const save = (flags) => {
     const trialId = `${i}_${attempt}`;

@@ -22,6 +22,7 @@ import pitchlib as P  # noqa: E402
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 EQ_BOUND = 0.5          # semitones: equivalence bound for H2 (memory)
 AMBIGUITY_MAX = 0.9     # template fits worse than this are "unclear"
+MARGIN_MIN = 0.0         # song specificity: own template must fit better than any other song (benchmark_gates: 100% right kept, 1% wrong through)
 COST_MAX = 0.6          # template misfit (mean |st|, analysis 1.1). PROVISIONAL: real right-song takes 0.34-0.54 in the first pilot
 MIN_VOICED = 3.0        # seconds of singing needed for a valid trial
 EXCLUDE_FLAGS = {"unsure_part", "heard_music", "interrupted"}
@@ -100,7 +101,7 @@ def build(events_by, songs, rescore=True, include_unverified=False):
             song = song_by.get(t["song_id"])
             stored = t.get("scores") or {}
             use_stored = (not rescore or not song) and stored.get("voiced_sec") is not None
-            sc = stored if use_stored else P.score_trial(t["track"], song, noise_rms=t.get("noise_rms") or 0)
+            sc = stored if use_stored else P.score_trial(t["track"], song, others=songs["songs"], noise_rms=t.get("noise_rms") or 0)
             prim = sc.get("primary") or {}
             tmpl = sc.get("template") or {}
             f = fam.get(t["song_id"], {})
@@ -111,6 +112,8 @@ def build(events_by, songs, rescore=True, include_unverified=False):
             if t["role"] != "control" and not verified and not include_unverified: reasons.append("reference_unverified")
             if prim.get("method") == "template" and tmpl.get("ambiguity", 0) > AMBIGUITY_MAX: reasons.append("ambiguous_fit")
             if prim.get("method") == "template" and tmpl.get("cost", 0) > COST_MAX: reasons.append("poor_fit")
+            spec = sc.get("specificity") or {}
+            if spec and spec.get("margin", 0) < MARGIN_MIN: reasons.append("fits_other_song")
             if "deviation" not in prim: reasons.append("unscorable")
             if t["role"] != "control" and prim.get("method") != "template": reasons.append("no_template")  # key-profile fallback is not accurate enough (tests/benchmark_scorer.mjs)
             if t.get("version_known") not in (None, "original", "unsure"): reasons.append("knows_other_version")  # e.g. Demi Lovato Let It Go, Glee, sped-up edits
@@ -120,7 +123,7 @@ def build(events_by, songs, rescore=True, include_unverified=False):
                 "method": prim.get("method"), "ambiguity": tmpl.get("ambiguity") if prim.get("method") == "template" else (sc.get("key") or {}).get("ambiguity"),
                 "anchor_dev": (sc.get("anchor") or {}).get("deviation"), "key_dev": (sc.get("key") or {}).get("deviation"),
                 "octave": tmpl.get("octave"), "voiced_sec": sc["voiced_sec"], "median_midi": sc.get("median_midi"),
-                "confidence": t.get("confidence"), "version_known": t.get("version_known"), "flags": ";".join(t.get("flags") or []),
+                "spec_margin": spec.get("margin"), "spec_best_other": spec.get("best_other"), "confidence": t.get("confidence"), "version_known": t.get("version_known"), "flags": ";".join(t.get("flags") or []),
                 "familiarity": f.get("familiarity"), "heard_as": f.get("heard_as"), "performed": f.get("performed"),
                 "ref_verified": verified, "valid": not reasons, "exclusion": ";".join(reasons),
             })

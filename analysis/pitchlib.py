@@ -9,7 +9,7 @@ from __future__ import annotations
 import math
 import numpy as np
 
-ANALYSIS_VERSION = "1.1.0"  # 1.1: template fit uses steady-note frames at 100 ms
+ANALYSIS_VERSION = "1.2.0"  # 1.1: steady-note frames at 100 ms; 1.2: song-specificity check
 PC_OF = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
 NOTE_NAMES = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
 KK = {
@@ -201,7 +201,28 @@ def score_key(m, tonic_pc, mode="major", tuning_cents=0.0):
     }
 
 
-def score_trial(track, song, **vopts):
+def specificity(m, song, others):
+    """How well the take fits every OTHER song's template (see pitch.js specificity)."""
+    ref = (song or {}).get("reference") or {}
+    if not ref.get("template"):
+        return None
+    own = score_template(m, ref["template"], ref.get("tuning_cents") or 0)
+    if not own:
+        return None
+    best = None
+    for o in others or []:
+        oref = o.get("reference") or {}
+        if o.get("id") == song.get("id") or not oref.get("template"):
+            continue
+        f = score_template(m, oref["template"], oref.get("tuning_cents") or 0)
+        if f and (best is None or f["cost"] < best[1]):
+            best = (o["id"], f["cost"])
+    if best is None:
+        return None
+    return {"best_other": best[0], "best_other_cost": best[1], "margin": round(best[1] - own["cost"], 4)}
+
+
+def score_trial(track, song, others=None, **vopts):
     m = clean_midi(track, **vopts)
     hop_sec = track["hop"] / track["sr"]
     voiced = int(np.isfinite(m).sum())
@@ -229,6 +250,8 @@ def score_trial(track, song, **vopts):
     tonic = parse_pc(ref.get("tonic", ""))
     if not math.isnan(tonic):
         out["key"] = score_key(m, tonic, ref.get("mode", "major"), tune)
+    if out["template"] and others is not None:
+        out["specificity"] = specificity(m, song, others)
     if out["template"]:
         out["primary"] = {"method": "template", "deviation": out["template"]["deviation"]}
     elif out["key"]:

@@ -159,6 +159,7 @@ Run with `python3 analysis/analyze.py --mode irb`. The script writes `report.md`
 - the song's reference isn't verified;
 - the song has no melody template (key-profile scoring is too error-prone; see §8.3);
 - template ambiguity > 0.9, or template misfit (mean |semitone| error) > 0.6 (provisional; recalibrate on pilot data before preregistering);
+- the take fits another song's template at least as well as its own (song-specificity margin < 0). This catches the wrong song or part. `tests/benchmark_gates.mjs`: 100% of right-song takes kept, 1% of wrong-song takes let through;
 - unscorable.
 
 Only songs the participant selects as known well are presented, by design.
