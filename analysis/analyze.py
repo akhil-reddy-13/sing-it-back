@@ -22,6 +22,7 @@ import pitchlib as P  # noqa: E402
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 EQ_BOUND = 0.5          # semitones: equivalence bound for H2 (memory)
 AMBIGUITY_MAX = 0.9     # template fits worse than this are "unclear"
+COST_MAX = 0.6          # template misfit (mean |st|, analysis 1.1). PROVISIONAL: real right-song takes 0.34-0.54 in the first pilot
 MIN_VOICED = 3.0        # seconds of singing needed for a valid trial
 EXCLUDE_FLAGS = {"unsure_part", "heard_music", "interrupted"}
 
@@ -109,14 +110,17 @@ def build(events_by, songs, rescore=True, include_unverified=False):
             if set(t.get("flags") or []) & EXCLUDE_FLAGS: reasons.append("participant_flag")
             if t["role"] != "control" and not verified and not include_unverified: reasons.append("reference_unverified")
             if prim.get("method") == "template" and tmpl.get("ambiguity", 0) > AMBIGUITY_MAX: reasons.append("ambiguous_fit")
+            if prim.get("method") == "template" and tmpl.get("cost", 0) > COST_MAX: reasons.append("poor_fit")
             if "deviation" not in prim: reasons.append("unscorable")
+            if t["role"] != "control" and prim.get("method") != "template": reasons.append("no_template")  # key-profile fallback is not accurate enough (tests/benchmark_scorer.mjs)
+            if t.get("version_known") not in (None, "original", "unsure"): reasons.append("knows_other_version")  # e.g. Demi Lovato Let It Go, Glee, sped-up edits
             trials.append({
                 "session_id": sid, "song_id": t["song_id"], "role": t["role"], "trial_index": t["trial_index"], "attempt": t["attempt"],
                 "deviation": prim.get("deviation"), "abs_dev": abs(prim["deviation"]) if "deviation" in prim else None,
                 "method": prim.get("method"), "ambiguity": tmpl.get("ambiguity") if prim.get("method") == "template" else (sc.get("key") or {}).get("ambiguity"),
                 "anchor_dev": (sc.get("anchor") or {}).get("deviation"), "key_dev": (sc.get("key") or {}).get("deviation"),
                 "octave": tmpl.get("octave"), "voiced_sec": sc["voiced_sec"], "median_midi": sc.get("median_midi"),
-                "confidence": t.get("confidence"), "flags": ";".join(t.get("flags") or []),
+                "confidence": t.get("confidence"), "version_known": t.get("version_known"), "flags": ";".join(t.get("flags") or []),
                 "familiarity": f.get("familiarity"), "heard_as": f.get("heard_as"), "performed": f.get("performed"),
                 "ref_verified": verified, "valid": not reasons, "exclusion": ";".join(reasons),
             })
