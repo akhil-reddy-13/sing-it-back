@@ -10,7 +10,7 @@
 //             in semitones, folded into [-6, +6) (octave-free).
 // =====================================================================
 
-export const ANALYSIS_VERSION = "1.1.0"; // 1.1: template fit uses steady-note frames at 100 ms
+export const ANALYSIS_VERSION = "1.2.0"; // 1.1: steady-note frames at 100 ms; 1.2: song-specificity check
 export const SR = 16000;        // analysis sample rate (Hz)
 export const HOP = 160;         // 10 ms hop
 export const WIN = 640;         // 40 ms YIN integration window
@@ -367,7 +367,24 @@ export function scoreKey(m, tonicPc, mode = "major", tuningCents = 0) {
  * Primary measure: template alignment when the reference melody is available,
  * otherwise the key-profile estimate. All three measures are always reported.
  */
-export function scoreTrial(track, song, vopts = {}) {
+/**
+ * Song specificity: how well the same take fits every OTHER song's template.
+ * margin = best other cost - own cost (> 0: this song fits best). A take of the wrong song
+ * (or Happy Birthday sung to every prompt) fits some other template much better.
+ */
+export function specificity(m, song, others) {
+  const own = song?.reference?.template?.length ? scoreTemplate(m, song.reference.template, song.reference.tuning_cents || 0) : null;
+  if (!own) return null;
+  let best = null;
+  for (const o of others || []) {
+    if (o.id === song.id || !o.reference?.template?.length) continue;
+    const f = scoreTemplate(m, o.reference.template, o.reference.tuning_cents || 0);
+    if (f && (!best || f.cost < best.cost)) best = { id: o.id, cost: f.cost };
+  }
+  return best ? { best_other: best.id, best_other_cost: best.cost, margin: +(best.cost - own.cost).toFixed(4) } : null;
+}
+
+export function scoreTrial(track, song, vopts = {}, others = null) {
   const m = cleanMidi(track, vopts);
   const hopSec = track.hop / track.sr;
   let voiced = 0;
@@ -392,6 +409,7 @@ export function scoreTrial(track, song, vopts = {}) {
   if (ref.template?.length) out.template = scoreTemplate(m, ref.template, tune);
   const tonic = parsePc(ref.tonic ?? "");
   if (!Number.isNaN(tonic)) out.key = scoreKey(m, tonic, ref.mode, tune);
+  if (out.template && others) out.specificity = specificity(m, song, others);
   if (out.template) out.primary = { method: "template", deviation: out.template.deviation };
   else if (out.key) out.primary = { method: "key", deviation: out.key.deviation };
   return out;

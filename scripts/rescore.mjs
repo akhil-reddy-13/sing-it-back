@@ -9,7 +9,7 @@ for (const line of readFileSync(process.argv[2], "utf8").split("\n").filter(Bool
   const t = e.payload, song = byId[t.song_id];
   if (!song) { console.log(t.song_id, "— no longer in songs.json"); continue; }
   const tr = unpackTrack(t.track);
-  const sc = scoreTrial(tr, song, { noiseRms: t.noise_rms });
+  const sc = scoreTrial(tr, song, { noiseRms: t.noise_rms }, songs);
   const old = t.scores.primary;
   // how specific is the fit? score this take against every other song's template too
   const m = cleanMidi(tr, { noiseRms: t.noise_rms });
