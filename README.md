@@ -1,6 +1,6 @@
 # Sing It Back
 
-A reproducible web experiment on **long-term memory for musical pitch**. Participants sing songs they know well from memory, and the browser measures how close they come to the key of the original recording (after Levitin, 1994). They also try to name isolated piano notes and describe their language and music background. The goal is to test whether tone-language experience helps people **name** pitches, **remember** them, or both.
+A reproducible web experiment on **long-term memory for musical pitch**. In about 5 minutes, participants sing 3 songs they know well from memory, and the browser measures how close they come to the key of the original recording (after Levitin, 1994). They also sing "Happy Birthday", try to name 12 piano notes, and answer 6 questions about their language and music background. The goal is to test whether tone-language experience helps people **name** pitches, **remember** them, or both.
 
 - Full study design, hypotheses and analysis plan: **[docs/PROTOCOL.md](docs/PROTOCOL.md)**
 - Stanford Music 1A project (Akhil Reddy, Fall 2026), developed with [Faculty PI] toward an IRB-approved study
@@ -39,8 +39,9 @@ Pages:
 ```bash
 npm test                             # pitch tracker + scorer on synthetic singers
 node tests/make_parity_fixture.mjs && python3 tests/test_parity.py   # JS and Python scorers agree
-COLLECT_DATA=true PORT=3123 npm run dev &  node tests/e2e.mjs http://localhost:3123
+COLLECT_DATA=true PORT=3123 npm run dev &  node tests/e2e.mjs http://localhost:3123 [shots/]
                                      # full study in headless Chrome, synthetic singer as the mic
+                                     # (optional dir: desktop + phone screenshot of every screen)
 python3 analysis/simulate.py && python3 analysis/analyze.py data/synthetic/events.ndjson \
    --songs data/synthetic/songs.json --out data/synthetic/report      # analysis pipeline on fake data
 python3 analysis/simulate_power.py   # sample-size simulation

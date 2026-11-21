@@ -23,20 +23,20 @@ The study also turns a classic, hard-to-reproduce demonstration into a reproduci
 | **H2a** | **Memory:** tone-language and non-tone-language speakers are *equivalent* in singing accuracy. | TOST, bounds ±0.5 st | confirmatory (key test of the model) |
 | **H2b** | **Naming:** tone-language speakers name isolated notes more accurately. | One-sided Welch t on proportion correct | confirmatory |
 | H3 | Naming accuracy is predicted by early fixed-do training and early lessons, independently of language. | Regression, see section 9.4 | exploratory |
-| H4 | Accuracy is better for songs heard mostly as the original (not covers or sped-up versions), and for higher familiarity. | Mixed model terms | exploratory |
-| H5 | Speaking pitch relates to the key chosen for "Happy Birthday" (speech-pitch anchor; Deutsch et al., 2004). | Correlation | exploratory |
+| H4 | ~~Accuracy is better for songs heard mostly as the original, and for higher familiarity.~~ | – | dropped in v2 (flow shortened; listening source and graded familiarity no longer collected) |
+| H5 | ~~Speaking pitch relates to the key chosen for "Happy Birthday".~~ | – | dropped in v2 (speech task removed) |
 
 H2a and H2b together are the model's signature prediction. A *failure* of H2a, where tone speakers are reliably better at memory too, would count against the model's claim that language acts on naming specifically.
 
 ## 3. Design
 
-- **Within-subject tasks**, in a fixed order: singing (targets → control → retest) → speech → vocal range → note naming → questionnaire.
+- **Within-subject tasks**, in a fixed order: singing (targets → control) → note naming → questionnaire.
 - **Quasi-experimental between-subject factor:** language background (self-reported, coded after data collection by a fixed rule; section 8.6). Language cannot be randomly assigned, so H2 is correlational. The analysis controls for music training and song familiarity.
-- **Randomized within session:** the order of the song list on the familiarity screen, which known songs are chosen (up to 5), their order, and the note-naming sequence. All randomization comes from a per-session seed stored with the data.
+- **Randomized within session:** the order of the song list on the familiarity screen, which known songs are chosen (up to 3), their order, and the note-naming sequence. All randomization comes from a per-session seed stored with the data.
 
 ### Why this order
 
-No external tone is played until all singing is finished. Hearing any reference pitch, such as a note in the naming task or a tuning tone, could anchor later singing. "Happy Birthday" (no canonical key) comes after the target songs, so a comfortable key chosen for it can't carry over into them. The retest of the first song comes last in the singing block, about 5 minutes after the first performance.
+No external tone is played until all singing is finished. Hearing any reference pitch, such as a note in the naming task or a tuning tone, could anchor later singing. "Happy Birthday" (no canonical key) comes after the target songs, so a comfortable key chosen for it can't carry over into them.
 
 ## 4. Participants
 
@@ -63,7 +63,7 @@ The current list (in `public/songs.json`) has 17 songs. Their tonics cover 11 of
 
 ### 5.2 Control song
 
-"Happy Birthday" has no canonical recording or key. It is used (a) to estimate each person's comfortable singing key and register (range baseline, H1b, H5), and (b) as a scoring check, since everyone knows the melody exactly.
+"Happy Birthday" has no canonical recording or key. It is used (a) to estimate each person's comfortable singing key and register (range baseline, H1b), and (b) as a scoring check, since everyone knows the melody exactly.
 
 ### 5.3 Reference verification procedure (required before data collection)
 
@@ -77,24 +77,25 @@ For each target song, two people work independently, using the original studio r
 
 Because every session stores raw pitch tracks, a reference corrected later can be applied to all past data by re-running the analysis.
 
-## 6. Procedure (about 12 minutes)
+## 6. Procedure (about 5 minutes; flow `short_v2`, app 0.2.0)
+
+v2 shortens the v1 flow (about 12 minutes) to cut dropout. It keeps every measure the confirmatory tests (H1, H1b, H2a, H2b) and the exclusions rely on, plus fixed-do and lesson onset for H3. v1 sessions are tagged by `app_version` and are not pooled with v2.
 
 | Step | Screen | Data saved | ~Time |
 |---|---|---|---|
-| 1 | Welcome, requirements ("don't listen to music until you're done") | – | 0:30 |
-| 2 | Consent (IRB text in `public/consent.html`); optional separate consent for keeping audio | consent flags | 1:00 |
-| 3 | Microphone check: 3 s room noise, then "testing, one, two, three" | SNR, noise floor, device settings | 0:45 |
-| 4 | Familiarity: rate every song 1–5 for the *original recording*; for songs rated 4–5: mostly heard as original / covers & remixes / both; ever performed it | ratings | 1:30 |
-| 5 | Sing up to 5 known songs (rated 5 first, then 4), in random order. Instruction: imagine the original recording, then sing along with it; humming is fine; an octave up or down is fine. Max 25 s each. Confidence rating after each. | pitch track (10 ms), scores, confidence, flags | 4:00 |
-| 6 | "Happy Birthday" in any key | pitch track | 0:40 |
-| 7 | Retest: the first song again | pitch track | 0:40 |
-| 8 | Read a fixed English sentence; optionally count 1–10 in another language | speaking pitch track | 0:40 |
-| 9 | Vocal-range siren (lowest → highest) | range | 0:20 |
-| 10 | Note naming: 24 piano tones (each pitch class twice, octaves 3–5, successive tones ≥ 7 st apart), each followed by a noise-and-random-tone mask. No feedback. Can be skipped by people who don't know note names (recorded). | responses, RTs | 2:30 |
-| 11 | Questionnaire: languages (age learned, fluency, current use), where they grew up, lessons (onset, years, instrument), fixed vs movable do, singing habits, AP self-report and family AP, listening hours, age, gender, hearing, mic type, room noise, any music heard during the study | answers | 2:00 |
-| 12 | Results and debrief | – | – |
+| 1 | Welcome, requirements ("don't play any music until you're done") | – | 0:20 |
+| 2 | Consent (IRB text in `public/consent.html`); one checkbox for age 18+ and agreement; optional separate consent for keeping audio | consent flags | 0:40 |
+| 3 | Microphone check: one 4 s take ("pause, then say *testing, one, two, three*"). The noise floor is the 10th percentile of 20 ms frame RMS within that take. | SNR, noise floor, device settings | 0:20 |
+| 4 | Song selection: tap every song whose *original recording* the participant could sing from memory (list order randomized) | selected songs (= familiarity 5), list order | 0:30 |
+| 5 | Sing up to 3 selected songs (random subset, random order). Instruction: hear the original recording in your head, then sing along; humming is fine; an octave up or down is fine. Max 25 s each. After each: Next / Redo / "I didn't really know this one" (flag `unsure_part`). | pitch track (10 ms), scores, flags | 2:00 |
+| 6 | "Happy Birthday" in any key | pitch track | 0:30 |
+| 7 | Note naming: 12 piano tones (each pitch class once, octaves 3–5, successive tones ≥ 7 st apart), each followed by a noise-and-random-tone mask. No feedback. Can be skipped by people who don't know note names (recorded). | responses, RTs | 1:00 |
+| 8 | Six questions: languages spoken at home before about age 6 (tap list + free text); other fluent languages learned later; years of lessons (none / <2 / 2–5 / 6+) with onset band (≤6 / 7–9 / 10+) and fixed vs movable do; AP self-report; age; heard music during the study / hearing difficulty | answers | 0:45 |
+| 9 | Results and debrief | – | – |
 
-Participants see no feedback about their accuracy until step 12. They can re-record a song (up to 3 attempts), and the last attempt is analyzed. A take with under 3 s of detected singing prompts a retry.
+Participants see no feedback about their accuracy until step 9. They can re-record a song (up to 3 attempts), and the last attempt is analyzed. A take with under 3 s of detected singing prompts a retry.
+
+**Removed from v1:** retest of the first song, speech recording, vocal-range siren, per-trial confidence, graded 1–5 familiarity with listening source, and the long questionnaire (country, instruments, singing habits, family AP, listening hours, gender, mic type, room noise, recruitment source).
 
 ## 7. Apparatus
 
@@ -126,15 +127,16 @@ YIN (de Cheveigné & Kawahara, 2002): 40 ms window, 10 ms hop, 65–1050 Hz, thr
 
 ### 8.4 Note naming
 
-The outcome is the proportion of the 24 tones named exactly (octave ignored), plus the proportion within ±1 semitone. An "AP-level" flag marks ≥ 85% exact (the Deutsch et al., 2006 criterion). Per-note errors are stored, which allows the white-key / G♯ "vocabulary" analysis on the poster (exploratory).
+The outcome is the proportion of the 12 tones named exactly (octave ignored), plus the proportion within ±1 semitone. An "AP-level" flag marks ≥ 85% exact (the Deutsch et al., 2006 criterion). Per-note errors are stored, which allows the white-key / G♯ "vocabulary" analysis on the poster (exploratory).
 
 ### 8.5 Other measures
 
-Median speaking pitch (English sentence; other language optional), vocal range (5th–95th percentile of the siren), the Happy Birthday key and register, confidence and familiarity ratings, and listening source.
+The Happy Birthday key and register (which also serves as the comfortable-range baseline for H1b), and the pitch range sung across all takes (5th–95th percentile, stored with each trial's scores).
 
 ### 8.6 Language coding (fixed before analysis; `analysis/language_codes.csv`)
 
 - **Tone-language speaker (primary):** at least one lexical tone language (e.g. Mandarin, Cantonese, Hokkien, Vietnamese, Thai, Punjabi, Yoruba) learned by **age 6** and spoken **fluently or natively** (fluency ≥ 4 of 5).
+  - *v2 operationalization:* a language listed as "spoken at home before about age 6" is coded age 0, fluency 5. A language listed as "fluent, learned later" is coded fluency 4 with unknown onset, so on its own it places the person in **Other**.
 - **Non-tone-language speaker:** no tone language at any fluency above "a little", and no pitch-accent language (Japanese, Swedish, Norwegian, Serbo-Croatian) learned early and fluently.
 - **Other:** everyone else (late or partial tone-language learners, early pitch-accent speakers). Excluded from H2. Analyzed in exploratory models with tone-language fluency as a continuous predictor, following Deutsch et al. (2009).
 
@@ -177,10 +179,6 @@ A sensitivity analysis repeats the main tests with each exclusion relaxed.
 ### 9.4 Exploratory
 
 - Fixed vs movable do, and lesson onset age, predicting naming (H3).
-- Listening source, familiarity and performing history predicting |dev| (H4).
-- Speech pitch vs Happy Birthday key (H5).
-- Test–retest reliability (circular correlation, first vs retest).
-- Confidence–accuracy relation.
 - The first-note method vs the template method.
 - Naming error patterns (white vs black keys; G♯→A).
 - Laptop vs phone microphones.
