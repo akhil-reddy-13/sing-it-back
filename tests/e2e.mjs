@@ -73,6 +73,8 @@ for (let k = 0; k < 12; k++) {
 step("about you");
 await page.waitForSelector("#native", { timeout: 60000 });
 await page.click('#native .chip[data-lang="Mandarin"]');
+await page.waitForSelector('#fluency input[name="flu_mandarin"]');
+await page.click('#fluency input[name="flu_mandarin"][value="3"]');
 await page.click('input[name="lessons"][value="2-5"]');
 await page.click('input[name="lesson_age"][value="le6"]');
 await page.click('input[name="solfege"][value="fixed"]');

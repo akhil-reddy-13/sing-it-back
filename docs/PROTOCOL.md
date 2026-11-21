@@ -141,7 +141,7 @@ The Happy Birthday key and register (which also serves as the comfortable-range 
 ### 8.6 Language coding (fixed before analysis; `analysis/language_codes.csv`)
 
 - **Tone-language speaker (primary):** at least one lexical tone language (e.g. Mandarin, Cantonese, Hokkien, Vietnamese, Thai, Punjabi, Yoruba) learned by **age 6** and spoken **fluently or natively** (fluency ≥ 4 of 5).
-  - *v2 operationalization:* a language listed as "spoken at home before about age 6" is coded age 0, fluency 5. A language listed as "fluent, learned later" is coded fluency 4 with unknown onset, so on its own it places the person in **Other**.
+  - *v2 operationalization:* a language listed as "spoken at home before about age 6" is coded age 0. For **tone languages** the participant is also asked "How well do you speak it now?" (Fluently = 5, Conversationally = 3, A little / understand only = 1), so heritage speakers who've lost the language don't count as tone speakers (Deutsch et al., 2009: fluency, not ancestry, predicts AP). Non-tone home languages and unanswered items are coded 5 and flagged in `fluency_source`. A sensitivity analysis drops `assumed_unanswered`. A language listed as "fluent, learned later" is coded fluency 4 with unknown onset, so on its own it places the person in **Other**.
 - **Non-tone-language speaker:** no tone language at any fluency above "a little", and no pitch-accent language (Japanese, Swedish, Norwegian, Serbo-Croatian) learned early and fluently.
 - **Other:** everyone else (late or partial tone-language learners, early pitch-accent speakers). Excluded from H2. Analyzed in exploratory models with tone-language fluency as a continuous predictor, following Deutsch et al. (2009).
 

@@ -354,6 +354,10 @@ async function namingRun(seq) {
 const COMMON_LANGS = ["English", "Mandarin", "Cantonese", "Spanish", "Hindi", "Vietnamese", "Korean", "Japanese", "Tagalog", "Arabic", "French", "Punjabi", "Thai"];
 const ALL_LANGS = [...COMMON_LANGS, "Taiwanese (Hokkien)", "Shanghainese (Wu)", "Lao", "Burmese", "Hmong", "Yoruba", "Igbo", "Akan (Twi)", "Zulu", "Xhosa", "German", "Urdu", "Bengali", "Tamil", "Telugu", "Russian", "Portuguese", "Swedish", "Norwegian", "Serbian / Croatian / Bosnian", "Italian", "Persian (Farsi)", "Turkish", "Hebrew", "Indonesian / Malay", "Swahili", "Amharic"];
 
+// Lexical tone languages (names + aliases), generated from analysis/language_codes.csv
+const TONE_LANGS = new Set(["akan", "akan (twi)", "burmese", "cantonese", "chaozhou", "chinese", "ewe", "fante", "hakka", "hmong", "hokkien", "igbo", "isixhosa", "isizulu", "lao", "mandarin", "mandarin chinese", "min nan", "minnan", "myanmar", "panjabi", "punjabi", "putonghua", "shanghainese", "shanghainese (wu)", "standard chinese", "taiwanese", "taiwanese (hokkien)", "taiwanese hokkien", "teochew", "thai", "twi", "vietnamese", "wu", "xhosa", "yoruba", "yue", "zulu"]);
+const isTone = (name) => TONE_LANGS.has(name.trim().toLowerCase());
+
 const choice = (name, opts) => `<div class="seg" role="radiogroup">${opts.map(([v, l]) =>
   `<label><input type="radio" name="${name}" value="${v}"><span>${l}</span></label>`).join("")}</div>`;
 const splitList = (s) => (s || "").split(/[,;\n]/).map((x) => x.trim().slice(0, 60)).filter(Boolean);
@@ -369,6 +373,7 @@ function about() {
       <p class="ql"><span>1</span>Which language(s) did you speak at home growing up, before about age 6?</p>
       <div class="chips small" id="native">${COMMON_LANGS.map((l) => `<button class="chip" data-lang="${l}" aria-pressed="false">${l}</button>`).join("")}</div>
       <input id="native_other" list="langs" placeholder="Others? Separate with commas" aria-label="Other languages spoken growing up">
+      <div id="fluency" class="sub hidden"></div>
     </div>
     <div class="q">
       <p class="ql"><span>2</span>Any other languages you speak fluently, learned later?</p>
@@ -398,7 +403,18 @@ function about() {
       <label class="check"><input type="checkbox" id="hearing"><span>I have a hearing difficulty</span></label>
     </div>
     <div class="actions"><button class="btn" id="go">See my results</button></div>`);
-  app.querySelectorAll("#native .chip").forEach((c) => (c.onclick = () => c.setAttribute("aria-pressed", c.getAttribute("aria-pressed") === "true" ? "false" : "true")));
+  // For tone languages only: how well do you speak it NOW? (Deutsch et al. 2009: fluency, not exposure, predicts AP)
+  const homeLangs = () => [...app.querySelectorAll('#native .chip[aria-pressed="true"]')].map((c) => c.dataset.lang).concat(splitList($("#native_other").value));
+  const fluKey = (l) => "flu_" + l.toLowerCase().replace(/[^a-z]+/g, "_");
+  const updFluency = () => {
+    const box = $("#fluency"), tones = homeLangs().filter(isTone);
+    const keep = Object.fromEntries([...box.querySelectorAll("input:checked")].map((r) => [r.name, r.value]));
+    box.classList.toggle("hidden", !tones.length);
+    box.innerHTML = tones.map((l) => `<p class="ql">How well do you speak ${esc(l)} now?</p>${choice(fluKey(l), [["5", "Fluently"], ["3", "Conversationally"], ["1", "A little / understand only"]])}`).join("");
+    for (const [n, v] of Object.entries(keep)) { const r = box.querySelector(`input[name="${n}"][value="${v}"]`); if (r) r.checked = true; }
+  };
+  app.querySelectorAll("#native .chip").forEach((c) => (c.onclick = () => { c.setAttribute("aria-pressed", c.getAttribute("aria-pressed") === "true" ? "false" : "true"); updFluency(); }));
+  $("#native_other").addEventListener("change", updFluency);
   app.querySelectorAll('input[name="lessons"]').forEach((r) => (r.onchange = () => $("#lessons_more").classList.toggle("hidden", r.value === "0" && r.checked)));
   $("#go").onclick = () => {
     const radio = (n) => $(`input[name="${n}"]:checked`)?.value || null;
@@ -407,7 +423,10 @@ function about() {
     // Same shape as v1 so analysis/analyze.py codes language groups unchanged:
     // grew-up languages = age_started 0, native-like; later fluent languages = fluency 4, age unknown.
     const languages = [
-      ...native.map((name, k) => ({ order: k, name, age_started: 0, fluency: 5, use_now: null, source: "home_before_6" })),
+      ...native.map((name, k) => {
+        const asked = isTone(name), ans = asked ? +($(`input[name="${fluKey(name)}"]:checked`)?.value || 0) || null : null;
+        return { order: k, name, age_started: 0, fluency: ans ?? 5, fluency_source: ans ? "reported" : asked ? "assumed_unanswered" : "assumed_home_language", use_now: null, source: "home_before_6" };
+      }),
       ...later.map((name, k) => ({ order: native.length + k, name, age_started: null, fluency: 4, use_now: null, source: "later_fluent" })),
     ];
     const band = radio("lessons");
