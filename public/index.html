@@ -3,21 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#fbfaf7">
   <title>Sing It Back</title>
-  <meta name="description" content="A short Stanford study on how well people remember the pitch of songs.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>">
+  <meta name="description" content="A 5-minute Stanford study: can you sing a song in its original key?">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%238c1515'/><text x='50' y='68' font-size='54' text-anchor='middle' fill='white'>♪</text></svg>">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="top">
-    <div class="brand"><span class="logo">♪</span> Sing It Back</div>
-    <div class="steplabel" id="stepLabel"></div>
+  <header class="topbar">
+    <span class="mark"><span class="dot-logo">♪</span>Sing It Back</span>
+    <span class="steps" id="stepLabel"></span>
   </header>
-  <div class="progress"><div id="progress"></div></div>
+  <div class="progress" aria-hidden="true"><div id="progress"></div></div>
   <div id="banner"></div>
-  <main id="app" tabindex="-1"><section class="card"><p>Loading…</p></section></main>
-  <footer>Stanford University · Department of Music · <a href="verify.html" class="quiet">researchers</a></footer>
-  <noscript><p class="card">This study needs JavaScript turned on.</p></noscript>
+  <main id="app" tabindex="-1"><section class="screen"><p class="muted">Loading…</p></section></main>
+  <footer>Stanford University · Music 1A · <a href="verify.html">researchers</a></footer>
+  <noscript><p class="screen">This study needs JavaScript turned on.</p></noscript>
   <script type="module" src="js/app.js"></script>
 </body>
 </html>
