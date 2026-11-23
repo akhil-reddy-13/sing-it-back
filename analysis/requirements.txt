@@ -3,3 +3,5 @@ pandas
 scipy
 statsmodels
 matplotlib
+librosa  # only for check_recordings.py (also needs ffmpeg)
+soundfile

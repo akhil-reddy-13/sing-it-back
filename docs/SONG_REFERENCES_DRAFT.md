@@ -29,7 +29,7 @@ No song has a documented key change (except Let It Go's bridge, which briefly go
 
 ## Held back from the live song list
 - bad_guy, uptown_funk: no sung hook with usable intervals.
-- last_christmas, billie_jean: recording tuning is off A440. Measure it from the audio first.
+- last_christmas (about −28 c, drifting) and billie_jean (+36 c, steady): measured 2026-11-23, see the audio check below.
 - never_gonna_give_you_up: with the 2-line template, the synthetic benchmark recovers the key only 78% of the time (4–5 st confusions). Needs the full 4-line chorus, transcribed and checked.
 
 ## Recommendations
@@ -37,3 +37,35 @@ No song has a documented key change (except Let It Go's bridge, which briefly go
 1b. Measure tuning from the audio for Last Christmas and Billie Jean (e.g. `librosa.estimate_tuning`).
 2. Add a "which version do you know best?" check for songs with well-known alternate keys (Glee Don't Stop Believin', the Bieber All I Want, sped-up TikTok edits).
 3. Check every template against the recording's chorus with a pitch tracker (`verify.html`), especially Blinding Lights and Don't Stop Believin'.
+
+## Audio check against the recordings (2026-11-23)
+`analysis/check_recordings.py` downloads the official 30 s previews (iTunes Search API and Deezer API, original studio versions only; audio cached in the git-ignored `analysis/out/previews/`). For each song it then:
+- measures the recording's tuning three ways (`librosa.estimate_tuning` at 12 bins per octave, plus magnitude-weighted spectral peaks in the bass band and the mid band);
+- separates the vocal (REPET-SIM), pitch-tracks it with pYIN, and scores it with `pitchlib.score_trial`, exactly like a participant's take.
+
+A correct key and template give a deviation near 0. Full results are stored per song in `songs.json` → `reference.audio_check`.
+
+| song | tuning (median of up to 6 measures) | template vs recording |
+|---|---|---|
+| blinding_lights | −1 c | matches (−0.01 st, cost 0.38) |
+| anti_hero | −1 c | matches (−0.01 st; Deezer clip has the chorus) |
+| drivers_license | −2 c | matches (+0.03 st, cost 0.41) |
+| someone_you_loved | −2 c | matches (−0.01 st) |
+| let_it_go | +2 c | matches (≈0 st, both clips) |
+| flowers | +1 c | matches (≈0 st, both clips) |
+| levitating | −2 c | matches (≈0 st, both clips) |
+| all_i_want_for_christmas | 0 c | consistent but noisy (−0.36 / −0.32 st, costs 0.76–0.80) |
+| dont_stop_believin | +1 c | consistent but noisy (+0.18 / +0.10 st) |
+| shape_of_you | −8 c | not checkable (clips disagree; costs > 0.86) |
+| rolling_in_the_deep | −2 c | not checkable: preview is the verse (sung pitch classes fit C minor) |
+| someone_like_you | −6 c | not checkable: preview is the verse (sung pitch classes fit A major) |
+| last_christmas | **−28 c**, drifting from about −35 to −9 across the clip | no template |
+| billie_jean | **+36 c**, steady (+30 to +42 in 5 s windows, both sources) | template unchecked: both previews are the intro and first verse |
+| never_gonna_give_you_up | +3 c | no template in songs.json |
+
+Takeaways:
+- The 12 live songs are all at concert pitch, so `tuning_cents: 0` is correct for them.
+- Billie Jean's earlier "+43 cents" claim is about right (measured: +36). If it comes back, set `tuning_cents: 36` and check the chorus template by ear first.
+- Last Christmas drifts too much for one tuning value. Keep it held back.
+- Still needs a human ear: the chorus templates for Rolling in the Deep, Someone Like You and Shape of You (use `verify.html`).
+- Caveat: these are automatic checks on mixed audio, not a trained listener. A "match" means the template's pitches line up with the recording's vocal to within half a semitone at the best alignment.
