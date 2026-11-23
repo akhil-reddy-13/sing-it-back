@@ -1,7 +1,7 @@
 {
  "version": "0.2.0-draft",
- "updated": "2026-11-20",
- "notes": "Keys are from Musicnotes 'original published key' cross-checked with Hooktheory. Chorus templates are DRAFTS from letter-note transcriptions (see docs/SONG_REFERENCES_DRAFT.md); every song stays verified=false until its key, tuning and melody are checked against the recording with verify.html by two people. Held back for now: bad_guy and uptown_funk (no sung interval hook), last_christmas and billie_jean (recording tuning off A440), never_gonna_give_you_up (hook is transposition-ambiguous; benchmark 78%).",
+ "updated": "2026-11-23",
+ "notes": "Keys are from Musicnotes 'original published key' cross-checked with Hooktheory. Chorus templates are drafts from letter-note transcriptions (docs/SONG_REFERENCES_DRAFT.md). reference.audio_check holds an automated check against the official 30 s previews (iTunes + Deezer; analysis/check_recordings.py): all 12 targets measure within 10 cents of A440, and 9 templates land on the recording (deviation within 0.5 st; 7 with a clean fit, 2 noisy but agreeing across both clips). Rolling in the Deep, Someone Like You and Shape of You still need a human check, because no preview contains their chorus. Held back: bad_guy and uptown_funk (no sung interval hook), last_christmas (about -28 cents and drifting), billie_jean (measured +36 cents, steady; chorus not in previews, template unchecked), never_gonna_give_you_up (hook is transposition-ambiguous; benchmark 78%).",
  "songs": [
   {
    "id": "happy_birthday",
@@ -201,7 +201,29 @@
      }
     ],
     "verified": false,
-    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording."
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording.",
+    "audio_check": {
+     "date": "2026-11-23",
+     "sources": {
+      "itunes": {
+       "track": "Rolling in the Deep | Adele | 21",
+       "tuning_cents": {
+        "estimate_tuning": 5,
+        "bass_peaks": -2,
+        "mid_peaks": -12
+       },
+       "template": {
+        "deviation": -4.51,
+        "cost": 0.8602,
+        "ambiguity": 0.911,
+        "margin": -0.0325
+       }
+      }
+     },
+     "tuning_cents_median": -2,
+     "tuning_cents_spread": 17,
+     "template_status": "chorus_not_in_previews"
+    }
    },
    "alt_versions": []
   },
@@ -264,7 +286,29 @@
      }
     ],
     "verified": false,
-    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording."
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording.",
+    "audio_check": {
+     "date": "2026-11-23",
+     "sources": {
+      "itunes": {
+       "track": "Someone Like You | Adele | 21",
+       "tuning_cents": {
+        "estimate_tuning": -7,
+        "bass_peaks": -5,
+        "mid_peaks": -6
+       },
+       "template": {
+        "deviation": -4.01,
+        "cost": 1.2187,
+        "ambiguity": 0.992,
+        "margin": -0.4462
+       }
+      }
+     },
+     "tuning_cents_median": -6,
+     "tuning_cents_spread": 2,
+     "template_status": "chorus_not_in_previews"
+    }
    },
    "alt_versions": []
   },
@@ -351,7 +395,43 @@
      }
     ],
     "verified": false,
-    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording."
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording.",
+    "audio_check": {
+     "date": "2026-11-23",
+     "sources": {
+      "itunes": {
+       "track": "Shape of You | Ed Sheeran | \u00f7 (Deluxe)",
+       "tuning_cents": {
+        "estimate_tuning": -6,
+        "bass_peaks": -13,
+        "mid_peaks": -8
+       },
+       "template": {
+        "deviation": -0.12,
+        "cost": 0.865,
+        "ambiguity": 0.897,
+        "margin": -0.0383
+       }
+      },
+      "deezer": {
+       "track": "Shape of You | Ed Sheeran | Shape of You",
+       "tuning_cents": {
+        "estimate_tuning": -6,
+        "bass_peaks": -14,
+        "mid_peaks": -8
+       },
+       "template": {
+        "deviation": 2.28,
+        "cost": 0.9408,
+        "ambiguity": 0.915,
+        "margin": -0.0784
+       }
+      }
+     },
+     "tuning_cents_median": -8,
+     "tuning_cents_spread": 8,
+     "template_status": "chorus_not_in_previews"
+    }
    },
    "alt_versions": []
   },
@@ -438,7 +518,43 @@
      }
     ],
     "verified": false,
-    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium-low. Verify against the recording."
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium-low. Verify against the recording.",
+    "audio_check": {
+     "date": "2026-11-23",
+     "sources": {
+      "itunes": {
+       "track": "Blinding Lights | The Weeknd | After Hours",
+       "tuning_cents": {
+        "estimate_tuning": 2,
+        "bass_peaks": -9,
+        "mid_peaks": -1
+       },
+       "template": {
+        "deviation": -0.01,
+        "cost": 0.3795,
+        "ambiguity": 0.607,
+        "margin": 0.0792
+       }
+      },
+      "deezer": {
+       "track": "Blinding Lights | The Weeknd | After Hours",
+       "tuning_cents": {
+        "estimate_tuning": 1,
+        "bass_peaks": -10,
+        "mid_peaks": -1
+       },
+       "template": {
+        "deviation": -0.01,
+        "cost": 0.713,
+        "ambiguity": 0.842,
+        "margin": -0.009
+       }
+      }
+     },
+     "tuning_cents_median": -1,
+     "tuning_cents_spread": 12,
+     "template_status": "matches_recording"
+    }
    },
    "alt_versions": [
     "a sped-up version"
@@ -531,7 +647,43 @@
      }
     ],
     "verified": false,
-    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording."
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording.",
+    "audio_check": {
+     "date": "2026-11-23",
+     "sources": {
+      "itunes": {
+       "track": "Anti-Hero | Taylor Swift | Midnights",
+       "tuning_cents": {
+        "estimate_tuning": 1,
+        "bass_peaks": -1,
+        "mid_peaks": -3
+       },
+       "template": {
+        "deviation": -4.82,
+        "cost": 0.9841,
+        "ambiguity": 0.847,
+        "margin": -0.259
+       }
+      },
+      "deezer": {
+       "track": "Anti-Hero | Taylor Swift | Midnights",
+       "tuning_cents": {
+        "estimate_tuning": -1,
+        "bass_peaks": 0,
+        "mid_peaks": -1
+       },
+       "template": {
+        "deviation": -0.01,
+        "cost": 0.6035,
+        "ambiguity": 0.728,
+        "margin": -0.0449
+       }
+      }
+     },
+     "tuning_cents_median": -1,
+     "tuning_cents_spread": 4,
+     "template_status": "matches_recording"
+    }
    },
    "alt_versions": [
     "a sped-up version"
@@ -624,7 +776,43 @@
      }
     ],
     "verified": false,
-    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording."
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording.",
+    "audio_check": {
+     "date": "2026-11-23",
+     "sources": {
+      "itunes": {
+       "track": "drivers license | Olivia Rodrigo | SOUR",
+       "tuning_cents": {
+        "estimate_tuning": -4,
+        "bass_peaks": 1,
+        "mid_peaks": -3
+       },
+       "template": {
+        "deviation": 2.05,
+        "cost": 0.9238,
+        "ambiguity": 0.958,
+        "margin": -0.1714
+       }
+      },
+      "deezer": {
+       "track": "drivers license | Olivia Rodrigo | SOUR",
+       "tuning_cents": {
+        "estimate_tuning": -1,
+        "bass_peaks": -8,
+        "mid_peaks": -1
+       },
+       "template": {
+        "deviation": 0.03,
+        "cost": 0.4051,
+        "ambiguity": 0.548,
+        "margin": 0.0956
+       }
+      }
+     },
+     "tuning_cents_median": -2,
+     "tuning_cents_spread": 9,
+     "template_status": "matches_recording"
+    }
    },
    "alt_versions": []
   },
@@ -699,7 +887,43 @@
      }
     ],
     "verified": false,
-    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium-high. Verify against the recording."
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium-high. Verify against the recording.",
+    "audio_check": {
+     "date": "2026-11-23",
+     "sources": {
+      "itunes": {
+       "track": "All I Want for Christmas Is You | Mariah Carey | Merry Christmas",
+       "tuning_cents": {
+        "estimate_tuning": 5,
+        "bass_peaks": -1,
+        "mid_peaks": -1
+       },
+       "template": {
+        "deviation": -0.36,
+        "cost": 0.7958,
+        "ambiguity": 0.942,
+        "margin": 0.0037
+       }
+      },
+      "deezer": {
+       "track": "All I Want for Christmas Is You | Mariah Carey | Merry Christmas",
+       "tuning_cents": {
+        "estimate_tuning": 6,
+        "bass_peaks": -1,
+        "mid_peaks": 1
+       },
+       "template": {
+        "deviation": -0.32,
+        "cost": 0.7556,
+        "ambiguity": 0.918,
+        "margin": 0.0244
+       }
+      }
+     },
+     "tuning_cents_median": 0,
+     "tuning_cents_spread": 7,
+     "template_status": "consistent_noisy"
+    }
    },
    "alt_versions": [
     "the Justin Bieber duet"
@@ -780,7 +1004,43 @@
      }
     ],
     "verified": false,
-    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium-low. Verify against the recording."
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium-low. Verify against the recording.",
+    "audio_check": {
+     "date": "2026-11-23",
+     "sources": {
+      "itunes": {
+       "track": "Don't Stop Believin' (2024 Remaster) | Journey | Greatest Hits (2024 Remaster)",
+       "tuning_cents": {
+        "estimate_tuning": -1,
+        "bass_peaks": 0,
+        "mid_peaks": 3
+       },
+       "template": {
+        "deviation": 0.18,
+        "cost": 0.7271,
+        "ambiguity": 0.852,
+        "margin": 0.0064
+       }
+      },
+      "deezer": {
+       "track": "Don't Stop Believin' | Journey | The Essential Journey",
+       "tuning_cents": {
+        "estimate_tuning": 1,
+        "bass_peaks": 2,
+        "mid_peaks": 5
+       },
+       "template": {
+        "deviation": 0.1,
+        "cost": 0.73,
+        "ambiguity": 0.834,
+        "margin": -0.1202
+       }
+      }
+     },
+     "tuning_cents_median": 1,
+     "tuning_cents_spread": 6,
+     "template_status": "consistent_noisy"
+    }
    },
    "alt_versions": [
     "the Glee version"
@@ -965,7 +1225,43 @@
      }
     ],
     "verified": false,
-    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording."
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording.",
+    "audio_check": {
+     "date": "2026-11-23",
+     "sources": {
+      "itunes": {
+       "track": "Someone You Loved | Lewis Capaldi | Divinely Uninspired To A Hellish Extent",
+       "tuning_cents": {
+        "estimate_tuning": -2,
+        "bass_peaks": -3,
+        "mid_peaks": -1
+       },
+       "template": {
+        "deviation": -0.01,
+        "cost": 0.9061,
+        "ambiguity": 0.974,
+        "margin": -0.1535
+       }
+      },
+      "deezer": {
+       "track": "Someone You Loved | Lewis Capaldi | Breach",
+       "tuning_cents": {
+        "estimate_tuning": -2,
+        "bass_peaks": -3,
+        "mid_peaks": -1
+       },
+       "template": {
+        "deviation": -0.01,
+        "cost": 0.5838,
+        "ambiguity": 0.814,
+        "margin": -0.0382
+       }
+      }
+     },
+     "tuning_cents_median": -2,
+     "tuning_cents_spread": 2,
+     "template_status": "matches_recording"
+    }
    },
    "alt_versions": []
   },
@@ -1064,7 +1360,43 @@
      }
     ],
     "verified": false,
-    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence high (pitch). Verify against the recording."
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence high (pitch). Verify against the recording.",
+    "audio_check": {
+     "date": "2026-11-23",
+     "sources": {
+      "itunes": {
+       "track": "Let It Go | Idina Menzel | Frozen (Original Motion Picture Soundtrack)",
+       "tuning_cents": {
+        "estimate_tuning": 3,
+        "bass_peaks": 1,
+        "mid_peaks": 3
+       },
+       "template": {
+        "deviation": 0.03,
+        "cost": 0.724,
+        "ambiguity": 0.853,
+        "margin": -0.039
+       }
+      },
+      "deezer": {
+       "track": "Let It Go (From \"Frozen\"/Soundtrack Version) | Idina Menzel | Frozen (Original Motion Picture Soundtrack)",
+       "tuning_cents": {
+        "estimate_tuning": 1,
+        "bass_peaks": 3,
+        "mid_peaks": 2
+       },
+       "template": {
+        "deviation": -0.01,
+        "cost": 0.661,
+        "ambiguity": 0.9,
+        "margin": 0.0458
+       }
+      }
+     },
+     "tuning_cents_median": 2,
+     "tuning_cents_spread": 2,
+     "template_status": "matches_recording"
+    }
    },
    "alt_versions": [
     "Demi Lovato's version"
@@ -1145,7 +1477,43 @@
      }
     ],
     "verified": false,
-    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording."
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording.",
+    "audio_check": {
+     "date": "2026-11-23",
+     "sources": {
+      "itunes": {
+       "track": "Flowers | Miley Cyrus | Endless Summer Vacation",
+       "tuning_cents": {
+        "estimate_tuning": 1,
+        "bass_peaks": 2,
+        "mid_peaks": 1
+       },
+       "template": {
+        "deviation": 0.13,
+        "cost": 0.8338,
+        "ambiguity": 0.971,
+        "margin": -0.1257
+       }
+      },
+      "deezer": {
+       "track": "Flowers | Miley Cyrus | Flowers",
+       "tuning_cents": {
+        "estimate_tuning": 1,
+        "bass_peaks": 2,
+        "mid_peaks": 1
+       },
+       "template": {
+        "deviation": -0.01,
+        "cost": 0.6561,
+        "ambiguity": 0.769,
+        "margin": 0.0314
+       }
+      }
+     },
+     "tuning_cents_median": 1,
+     "tuning_cents_spread": 1,
+     "template_status": "matches_recording"
+    }
    },
    "alt_versions": [
     "a sped-up version"
@@ -1262,7 +1630,43 @@
      }
     ],
     "verified": false,
-    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording."
+    "source": "draft from published key (Musicnotes + Hooktheory) and letter-note transcriptions; melody confidence medium. Verify against the recording.",
+    "audio_check": {
+     "date": "2026-11-23",
+     "sources": {
+      "itunes": {
+       "track": "Levitating | Dua Lipa | Future Nostalgia",
+       "tuning_cents": {
+        "estimate_tuning": 3,
+        "bass_peaks": -5,
+        "mid_peaks": 1
+       },
+       "template": {
+        "deviation": 0.05,
+        "cost": 0.726,
+        "ambiguity": 0.889,
+        "margin": -0.0678
+       }
+      },
+      "deezer": {
+       "track": "Levitating | Dua Lipa | Future Nostalgia",
+       "tuning_cents": {
+        "estimate_tuning": -5,
+        "bass_peaks": -8,
+        "mid_peaks": 0
+       },
+       "template": {
+        "deviation": 0.03,
+        "cost": 0.6346,
+        "ambiguity": 0.849,
+        "margin": -0.0468
+       }
+      }
+     },
+     "tuning_cents_median": -2,
+     "tuning_cents_spread": 11,
+     "template_status": "matches_recording"
+    }
    },
    "alt_versions": []
   }
