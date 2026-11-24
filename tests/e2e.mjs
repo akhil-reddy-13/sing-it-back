@@ -22,6 +22,16 @@ await page.setViewport({ width: 1100, height: 900 });
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 page.on("console", (m) => { if (m.type() === "error") errors.push(m.text()); });
+const saves = { ok: 0, failed: [] };
+page.on("response", (r) => {
+  if (!r.url().includes("/api/event")) return;
+  if (r.ok()) saves.ok++; else saves.failed.push(`${r.status()} ${r.url()}`);
+});
+let sessionId = null;
+page.on("request", (r) => {
+  if (!r.url().includes("/api/event") || sessionId) return;
+  try { sessionId = JSON.parse(r.postData() || "{}").session_id || null; } catch {}
+});
 page.on("requestfailed", (r) => errors.push("request failed: " + r.url() + " " + r.failure()?.errorText));
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const click = async (sel) => { await page.waitForSelector(sel + ":not([disabled])", { visible: true, timeout: 30000 }); await page.click(sel); };
@@ -88,4 +98,6 @@ const resultText = await page.$eval("main", (e) => e.innerText);
 console.log("\n--- results screen ---\n" + resultText.split("\n").slice(0, 16).join("\n"));
 await sleep(1500);
 await browser.close();
+console.log(`\nsaves: ${saves.ok} ok, ${saves.failed.length} failed` + (sessionId ? `  (session ${sessionId})` : ""));
+if (saves.failed.length) errors.push("event saves failed:\n" + saves.failed.join("\n"));
 if (errors.length) { console.error("\nPAGE ERRORS:\n" + errors.join("\n")); process.exit(1); }
