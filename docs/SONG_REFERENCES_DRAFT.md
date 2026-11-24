@@ -57,8 +57,8 @@ A correct key and template give a deviation near 0. Full results are stored per 
 | all_i_want_for_christmas | 0 c | consistent but noisy (−0.36 / −0.32 st, costs 0.76–0.80) |
 | dont_stop_believin | +1 c | consistent but noisy (+0.18 / +0.10 st) |
 | shape_of_you | −8 c | not checkable (clips disagree; costs > 0.86) |
-| rolling_in_the_deep | −2 c | not checkable: preview is the verse (sung pitch classes fit C minor) |
-| someone_like_you | −6 c | not checkable: preview is the verse (sung pitch classes fit A major) |
+| rolling_in_the_deep | −2 c | key confirmed (vocal pitch classes fit C minor in every clip); chorus template not checkable: the album, compilation, music-video and live previews all cut the verse |
+| someone_like_you | −6 c | key confirmed (vocal pitch classes fit A major in every clip); chorus template not checkable: the album and both music-video previews all cut the verse |
 | last_christmas | **−28 c**, drifting from about −35 to −9 across the clip | no template |
 | billie_jean | **+36 c**, steady (+30 to +42 in 5 s windows, both sources) | template unchecked: both previews are the intro and first verse |
 | never_gonna_give_you_up | +3 c | no template in songs.json |
